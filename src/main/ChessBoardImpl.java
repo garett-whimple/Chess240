@@ -6,6 +6,7 @@ import chess.ChessPosition;
 import java.util.ArrayList;
 
 public class ChessBoardImpl implements ChessBoard {
+    public ChessBoardImpl() {}
     ChessPiece[][] board = new ChessPiece[8][8];
     @Override
     public void addPiece(ChessPosition position, ChessPiece piece) {
@@ -39,7 +40,7 @@ public class ChessBoardImpl implements ChessBoard {
             if (i == 1 || i == 6) {
                 for (int j = 0; j < board[i].length; j++) {
                     currentType = ChessPiece.PieceType.PAWN;
-                    currentPiece = new ChessPieceImpl(currentColor, currentType);
+                    currentPiece = new ChessPieceImpl(currentColor, currentType, false);
                     board[i][j] = currentPiece;
                 }
             }
@@ -62,7 +63,7 @@ public class ChessBoardImpl implements ChessBoard {
                             currentType = ChessPiece.PieceType.KING;
                             break;
                     }
-                    currentPiece = new ChessPieceImpl(currentColor, currentType);
+                    currentPiece = new ChessPieceImpl(currentColor, currentType, false);
                     board[i][j] = currentPiece;
                 }
             }

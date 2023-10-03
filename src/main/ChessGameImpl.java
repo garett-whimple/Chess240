@@ -3,14 +3,15 @@ import chess.*;
 import java.util.Collection;
 
 public class ChessGameImpl implements ChessGame {
+    TeamColor teamTurn = TeamColor.WHITE;
     @Override
     public TeamColor getTeamTurn() {
-        return null;
+        return teamTurn;
     }
 
     @Override
     public void setTeamTurn(TeamColor team) {
-
+        teamTurn = team;
     }
 
     @Override

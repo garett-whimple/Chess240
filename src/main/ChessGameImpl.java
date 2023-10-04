@@ -16,28 +16,60 @@ public class ChessGameImpl implements ChessGame {
         teamTurn = team;
     }
 
+    public Collection<ChessMove> allValidCheckedMoves(TeamColor currentTeamColor) {
+        ChessBoard copyBoard = new ChessBoardImpl();
+        board.setEqual(copyBoard);
+
+
+        Collection<ChessMove> allCurrentMoves;
+        Collection<ChessMove> validMoves = new ArrayList<>();
+        allCurrentMoves = allValidMoves(currentTeamColor);
+
+        for (ChessMove currentMove: allCurrentMoves) {
+            copyBoard.setEqual(board);
+            ChessPiece currentPiece = board.getPiece(currentMove.getStartPosition());
+            board.addPiece(currentMove.getEndPosition(),currentPiece);
+            board.removePiece(currentMove.getStartPosition());
+            if (!isInCheck(currentTeamColor)) {
+                validMoves.add(currentMove);
+            }
+        }
+        copyBoard.setEqual(board);
+        return validMoves;
+    }
+
+    public Collection<ChessMove> allValidMoves(TeamColor currentTeamColor) {
+        Collection<ChessMove> returnList = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                ChessPosition currentPosition = new ChessPositionImpl(i,j);
+                ChessPiece currentPiece = board.getPiece(currentPosition);
+                if (currentPiece != null && currentPiece.getTeamColor() == currentTeamColor) {
+                    returnList.addAll(validMoves(currentPosition));
+                }
+            }
+        }
+        return returnList;
+    }
+
     @Override
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         Collection<ChessMove> returnList = new ArrayList<>();
-        int currentRow = startPosition.getRow();
-        int currentColumn = startPosition.getColumn();
-        ChessPosition currentEndPosition = null;
         ChessPiece currentPiece =  board.getPiece(startPosition);
-        ChessGame.TeamColor currentColor = currentPiece.getTeamColor();
         if (currentPiece.getPieceType() == ChessPiece.PieceType.PAWN) {
             returnList = validPawnMoves(startPosition);
         } else if (currentPiece.getPieceType() == ChessPiece.PieceType.ROOK) {
-            returnList = validPawnMoves(startPosition);
+            returnList = validRookMoves(startPosition);
         } else if (currentPiece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
-            returnList = validPawnMoves(startPosition);
+            returnList = validKnightMoves(startPosition);
         } else if (currentPiece.getPieceType() == ChessPiece.PieceType.BISHOP) {
-            returnList = validPawnMoves(startPosition);
+            returnList = validBishopMoves(startPosition);
         } else if (currentPiece.getPieceType() == ChessPiece.PieceType.QUEEN) {
-            returnList = validPawnMoves(startPosition);
+            returnList = validQueenMoves(startPosition);
         } else if (currentPiece.getPieceType() == ChessPiece.PieceType.KING) {
-            returnList = validPawnMoves(startPosition);
+            returnList = validKingMoves(startPosition);
         }
-        return null;
+        return returnList;
     }
 
     private Collection<ChessMove> validPawnMoves(ChessPosition startPosition) {
@@ -265,35 +297,75 @@ public class ChessGameImpl implements ChessGame {
                 return true;
             }
         }
+        return false;
     }
 
     @Override
     public void makeMove(ChessMove move) throws InvalidMoveException {
+        Collection<ChessMove> validMoves;
+        if (isInCheck(getTeamTurn())) {
+            validMoves = allValidCheckedMoves(getTeamTurn());
+        } else {
+            validMoves = allValidMoves(getTeamTurn());
 
+        }
+        if(validMoves.contains(move)) {
+            ChessPiece currentPiece = board.getPiece(move.getStartPosition());
+            board.addPiece(move.getEndPosition(),currentPiece);
+            board.removePiece(move.getStartPosition());
+        } else {
+            //Throw Exception
+        }
     }
 
     @Override
     public boolean isInCheck(TeamColor teamColor) {
+        Collection<ChessMove> enemyMoves = new ArrayList<>();
+        if (teamColor == TeamColor.BLACK) {
+            enemyMoves.addAll(allValidMoves(TeamColor.WHITE));
+        } else {
+            enemyMoves.addAll(allValidMoves(TeamColor.BLACK));
+        }
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                ChessPosition currentPosition = new ChessPositionImpl(i,j);
+                ChessPiece currentChessPiece = board.getPiece(currentPosition);
+                if (currentChessPiece.getTeamColor() == teamColor && currentChessPiece.getPieceType() == ChessPiece.PieceType.KING) {
+                    for (ChessMove currentMove : enemyMoves) {
+                        if(currentMove.getEndPosition() == currentPosition) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
         return false;
     }
 
     @Override
     public boolean isInCheckmate(TeamColor teamColor) {
+        if (isInCheck(teamColor)) {
+            if(allValidCheckedMoves(teamColor).isEmpty()) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public boolean isInStalemate(TeamColor teamColor) {
-        return false;
+        Collection<ChessMove> currentMoves = new ArrayList<>();
+        currentMoves.addAll(allValidMoves(teamColor));
+        return currentMoves.isEmpty();
     }
 
     @Override
     public void setBoard(ChessBoard board) {
-
+        board.resetBoard();
     }
 
     @Override
     public ChessBoard getBoard() {
-        return null;
+        return board;
     }
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class ChessBoardImpl implements ChessBoard {
     public ChessBoardImpl() {}
-    ChessPiece[][] board = new ChessPiece[8][8];
+    public ChessPiece[][] board = new ChessPiece[8][8];
     @Override
     public void addPiece(ChessPosition position, ChessPiece piece) {
         board[position.getRow()][position.getColumn()] = piece;
@@ -66,6 +66,16 @@ public class ChessBoardImpl implements ChessBoard {
                     currentPiece = new ChessPieceImpl(currentColor, currentType, false);
                     board[i][j] = currentPiece;
                 }
+            }
+        }
+    }
+
+    public void setEqual(ChessBoard copyBoard) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                ChessPosition currentPosition = new ChessPositionImpl(i, j);
+                ChessPiece currentPiece = getPiece(currentPosition);
+                copyBoard.addPiece(currentPosition, currentPiece);
             }
         }
     }

@@ -30,4 +30,7 @@ public interface ChessBoard {
      * (How the game of chess normally starts)
      */
     void resetBoard();
+    void setEqual(ChessBoard copyBoard);
+
+    void removePiece(ChessPosition position);
 }

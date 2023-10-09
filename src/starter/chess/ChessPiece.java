@@ -42,4 +42,6 @@ public interface ChessPiece {
      * @return Collection of valid moves
      */
     Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition);
+    void setValidNextMove(ChessMove move);
+    void setMoved(boolean hasMoved);
 }

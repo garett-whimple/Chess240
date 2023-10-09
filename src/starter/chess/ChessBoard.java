@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.Collection;
+
 /**
  * A chessboard that can hold and rearrange chess pieces.
  * 
@@ -31,6 +33,8 @@ public interface ChessBoard {
      */
     void resetBoard();
     void setEqual(ChessBoard copyBoard);
-
     void removePiece(ChessPosition position);
+    Collection<ChessMove> validMoves(ChessPosition startPosition);
+    Collection<ChessMove> allValidMoves(ChessGame.TeamColor currentTeamColor);
+    boolean isInCheck(ChessGame.TeamColor teamColor);
 }

@@ -1,4 +1,4 @@
-package Server;
+package Server.Models;
 
 public class AuthToken {
     String authToken;

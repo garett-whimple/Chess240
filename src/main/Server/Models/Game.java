@@ -1,4 +1,4 @@
-package Server;
+package Server.Models;
 
 import ChessImpl.ChessGameImpl;
 import chess.ChessGame;

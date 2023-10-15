@@ -1,5 +1,8 @@
-package Server;
+package Server.Services;
 
+import Server.Models.Game;
+import Server.Models.MessageResponse;
+import Server.Models.Response;
 import chess.ChessGame;
 
 import java.util.ArrayList;

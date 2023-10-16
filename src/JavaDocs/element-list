@@ -2,10 +2,6 @@ unnamed package
 chess
 ChessImpl
 dataAccess
-passoffTests
-passoffTests.chessTests
-passoffTests.chessTests.chessExtraCredit
-passoffTests.chessTests.chessPieceTests
 Server
 Server.DataAccessObjects
 Server.Models

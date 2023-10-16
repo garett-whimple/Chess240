@@ -1,19 +1,19 @@
 package Server.Services;
 
 import Server.Models.Game;
+import Server.Models.Requests.JoinGameRequest;
 import Server.Models.Responses.GameResponse;
 import Server.Models.Responses.MessageResponse;
 import Server.Models.Responses.ListGameResponse;
-import chess.ChessGame;
 
 /**
  * Class that deals with any Game server functionality
  */
-public class JoinGameService {
+public class GameService {
     /**
      * Constructor that creates a JoinGameService Object
      */
-    public JoinGameService() {
+    public GameService() {
     }
 
     /**
@@ -25,20 +25,20 @@ public class JoinGameService {
     }
 
     /**
-     * Creates a new game
+     * Creates a new game with any amount of information
+     * @param game Game Object that is used to set all game fields
      * @return GameResponse
      */
-    public GameResponse createGame(){
+    public GameResponse createGame(Game game){
         return null;
     }
 
     /**
      * Add a user to a given game
-     * @param game Game Object that has needed GameId field
-     * @param color ChessGame.TeamColor is the color that the User will be assigned
+     * @param joinGameRequest has fields gameId, username, and color
      * @return MessageResponse
      */
-    public MessageResponse joinGame(Game game, ChessGame.TeamColor color){
+    public MessageResponse joinGame(JoinGameRequest joinGameRequest){
         return null;
     }
 }

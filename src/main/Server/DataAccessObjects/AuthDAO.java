@@ -18,29 +18,20 @@ public class AuthDAO {
 
     /**
      * Finds the authToken of a given User
-     * @param username username of the User
+     * @param authToken authToken of the User
      * @return AuthToken
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
-    public AuthToken find(String username) throws DataAccessException {
-        return null;
-    }
-
-    /**
-     * Finds all the authTokens in the database
-     * @return Collection of AuthToken
-     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
-     */
-    public Collection<AuthToken> findAll() throws DataAccessException {
+    public AuthToken find(String authToken) throws DataAccessException {
         return null;
     }
 
     /**
      * Removes a given authToken
-     * @param username username of the User
+     * @param authToken AuthToken of the User
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
-    public void remove(String username) throws DataAccessException {
+    public void remove(String authToken) throws DataAccessException {
 
     }
 
@@ -58,15 +49,6 @@ public class AuthDAO {
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void insert(AuthToken authToken) throws DataAccessException {
-
-    }
-
-    /**
-     * Updates the given authToken in the database
-     * @param authToken Object that has AuthToken and Username fields
-     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
-     */
-    public void update(AuthToken authToken) throws DataAccessException {
 
     }
 }

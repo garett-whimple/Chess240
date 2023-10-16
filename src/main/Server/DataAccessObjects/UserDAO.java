@@ -27,24 +27,6 @@ public class UserDAO {
     }
 
     /**
-     * Returns all the users
-     * @return Collection of Users
-     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
-     */
-    public Collection<User> findAll() throws DataAccessException {
-        return null;
-    }
-
-    /**
-     * Removes a user with the given username
-     * @param username username of the User
-     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
-     */
-    public void remove(String username) throws DataAccessException {
-
-    }
-
-    /**
      * clears all users from the database
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
@@ -58,15 +40,6 @@ public class UserDAO {
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void insert(User user) throws DataAccessException {
-
-    }
-
-    /**
-     * Updates the given user in the database
-     * @param user Object that has username, password, and email fields
-     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
-     */
-    public void update(User user) throws DataAccessException {
 
     }
 }

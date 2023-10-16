@@ -4,8 +4,17 @@ package Server.Models;
  * Object that represents a User
  */
 public class User {
+    /**
+     * Identifier of the User Object
+     */
     String username;
+    /**
+     * Password used to validate the User
+     */
     String password;
+    /**
+     * Email of the user
+     */
     String email;
 
     /**

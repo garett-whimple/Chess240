@@ -4,8 +4,17 @@ package Server.Models.Responses;
  * Response Object that holds information for a Game
  */
 public class GameResponse {
+    /**
+     * Is the error message of the response if there is one
+     */
     String message;
+    /**
+     * Is the return Code of the response
+     */
     int returnCode;
+    /**
+     * Id of the game
+     */
     int gameID;
 
     /**

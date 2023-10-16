@@ -4,9 +4,21 @@ package Server.Models.Responses;
  * Response Object that holds information for an AuthToken
  */
 public class AuthTokenResponse {
+    /**
+     * Is the error message of the response if there is one
+     */
     String message;
+    /**
+     * Is the return Code of the response
+     */
     int returnCode;
+    /**
+     * Username of the user
+     */
     String username;
+    /**
+     * AuthToken connected to the user
+     */
     String authToken;
 
     public AuthTokenResponse(String message, int returnCode, String username, String authToken) {

@@ -8,8 +8,17 @@ import java.util.ArrayList;
  * Response Object that holds information for a list of Games
  */
 public class ListGameResponse {
+    /**
+     * Is the error message of the response if there is one
+     */
     String message;
+    /**
+     * Is the return Code of the response
+     */
     int returnCode;
+    /**
+     * An array of game Objects
+     */
     private ArrayList<Game> games;
 
     /**

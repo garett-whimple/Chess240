@@ -4,7 +4,13 @@ package Server.Models;
  * Object that represents a AuthToken
  */
 public class AuthToken {
+    /**
+     * authToken connected to the user
+     */
     String authToken;
+    /**
+     * Username of the user
+     */
     String username;
 
     /**

@@ -7,10 +7,25 @@ import chess.ChessGame;
  * Object that represents a Game
  */
 public class Game {
+    /**
+     * Identification number of the Game
+     */
     private int gameId;
+    /**
+     * Username of the user playing white
+     */
     private String whiteUserName;
+    /**
+     * Username of the user playing black
+     */
     private String blackUserName;
+    /**
+     * Name that is given to the game
+     */
     private String gameName;
+    /**
+     * Variable that holds the game object (has information like board and the current turn)
+     */
     private ChessGame game;
 
     /**

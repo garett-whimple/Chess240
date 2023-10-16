@@ -4,7 +4,13 @@ package Server.Models.Responses;
  * Response Object that holds information for void responses
  */
 public class MessageResponse {
+    /**
+     * Is the error message of the response if there is one
+     */
     String message;
+    /**
+     * Is the return Code of the response
+     */
     int returnCode;
 
     /**

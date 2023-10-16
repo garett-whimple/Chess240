@@ -1,5 +1,8 @@
 package Server.Models;
 
+/**
+ * Object that represents a AuthToken
+ */
 public class AuthToken {
     String authToken;
     String username;

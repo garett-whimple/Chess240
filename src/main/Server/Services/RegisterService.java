@@ -3,6 +3,9 @@ package Server.Services;
 import Server.Models.Responses.AuthTokenResponse;
 import Server.Models.User;
 
+/**
+ * Class that deals with any User server functionality
+ */
 public class RegisterService {
     /**
      * Constructor that creates a RegisterService Object

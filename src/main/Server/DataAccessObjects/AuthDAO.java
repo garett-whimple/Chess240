@@ -6,6 +6,9 @@ import dataAccess.DataAccessException;
 import javax.xml.crypto.Data;
 import java.util.Collection;
 
+/**
+ * DAO for the authToken table
+ */
 public class AuthDAO {
     /**
      * Constructor that creates a AuthDAO Object

@@ -4,6 +4,9 @@ import Server.Models.Responses.AuthTokenResponse;
 import Server.Models.Responses.MessageResponse;
 import Server.Models.User;
 
+/**
+ * Class that deals with any Session server functionality
+ */
 public class LoginService {
     /**
      * Constructor that creates a LoginService Object

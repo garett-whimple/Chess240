@@ -5,6 +5,9 @@ import dataAccess.DataAccessException;
 
 import java.util.Collection;
 
+/**
+ * DAO for the game table
+ */
 public class GameDAO {
     /**
      * Constructor that creates a GameDAO Object

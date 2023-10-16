@@ -1,5 +1,8 @@
 package Server.Models.Responses;
 
+/**
+ * Response Object that holds information for void responses
+ */
 public class MessageResponse {
     String message;
     int returnCode;

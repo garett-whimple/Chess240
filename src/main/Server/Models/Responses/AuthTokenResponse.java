@@ -1,5 +1,8 @@
 package Server.Models.Responses;
 
+/**
+ * Response Object that holds information for an AuthToken
+ */
 public class AuthTokenResponse {
     String message;
     int returnCode;

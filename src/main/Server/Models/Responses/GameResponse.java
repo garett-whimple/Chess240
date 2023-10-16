@@ -1,5 +1,8 @@
 package Server.Models.Responses;
 
+/**
+ * Response Object that holds information for a Game
+ */
 public class GameResponse {
     String message;
     int returnCode;

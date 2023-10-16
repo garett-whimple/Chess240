@@ -1,5 +1,8 @@
 package Server.Models;
 
+/**
+ * Object that represents a User
+ */
 public class User {
     String username;
     String password;

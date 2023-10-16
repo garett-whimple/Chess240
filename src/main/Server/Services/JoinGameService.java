@@ -6,6 +6,9 @@ import Server.Models.Responses.MessageResponse;
 import Server.Models.Responses.ListGameResponse;
 import chess.ChessGame;
 
+/**
+ * Class that deals with any Game server functionality
+ */
 public class JoinGameService {
     /**
      * Constructor that creates a JoinGameService Object

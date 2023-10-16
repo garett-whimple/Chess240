@@ -2,6 +2,9 @@ package Server.Services;
 
 import Server.Models.Responses.MessageResponse;
 
+/**
+ * Class that deals with any administration server functionality
+ */
 public class AdminService {
     /**
      * Constructor that creates a AdminService Object

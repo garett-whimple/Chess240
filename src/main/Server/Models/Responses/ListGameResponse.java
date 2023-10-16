@@ -4,6 +4,9 @@ import Server.Models.Game;
 
 import java.util.ArrayList;
 
+/**
+ * Response Object that holds information for a list of Games
+ */
 public class ListGameResponse {
     String message;
     int returnCode;

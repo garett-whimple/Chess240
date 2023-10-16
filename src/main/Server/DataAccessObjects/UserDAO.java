@@ -6,6 +6,9 @@ import dataAccess.DataAccessException;
 import javax.xml.crypto.Data;
 import java.util.Collection;
 
+/**
+ * DAO for the User table
+ */
 public class UserDAO {
     /**
      * Constructor that creates a UserDAO Object

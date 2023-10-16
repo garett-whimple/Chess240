@@ -3,6 +3,9 @@ package Server.Models;
 import ChessImpl.ChessGameImpl;
 import chess.ChessGame;
 
+/**
+ * Object that represents a Game
+ */
 public class Game {
     private int gameId;
     private String whiteUserName;

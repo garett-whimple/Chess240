@@ -1,4 +1,4 @@
-package Server.Models;
+package Server.Models.Responses;
 
 public class MessageResponse {
     String message;

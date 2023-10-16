@@ -1,10 +1,10 @@
 package Server.Services;
 
-import Server.Models.Response;
+import Server.Models.Responses.AuthTokenResponse;
 import Server.Models.User;
 
 public class RegisterService {
-    public Response<User> registerUser(User user){
+    public AuthTokenResponse registerUser(User user){
         return null;
     }
 }

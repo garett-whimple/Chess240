@@ -1,6 +1,6 @@
 package Server.Services;
 
-import Server.Models.MessageResponse;
+import Server.Models.Responses.MessageResponse;
 
 public class AdminService {
     public MessageResponse clearDatabase() {

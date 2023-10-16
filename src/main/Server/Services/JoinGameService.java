@@ -1,17 +1,16 @@
 package Server.Services;
 
 import Server.Models.Game;
-import Server.Models.MessageResponse;
-import Server.Models.Response;
+import Server.Models.Responses.GameResponse;
+import Server.Models.Responses.MessageResponse;
+import Server.Models.Responses.ListGameResponse;
 import chess.ChessGame;
 
-import java.util.ArrayList;
-
 public class JoinGameService {
-    public Response<ArrayList<Game>> ListGames(){
+    public ListGameResponse ListGames(){
         return null;
     }
-    public Response<Game> createGame(){
+    public GameResponse createGame(){
         return null;
     }
     public MessageResponse joinGame(Game game, ChessGame.TeamColor color){

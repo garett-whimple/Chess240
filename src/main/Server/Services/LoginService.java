@@ -1,12 +1,11 @@
 package Server.Services;
 
-import Server.Models.AuthToken;
-import Server.Models.MessageResponse;
-import Server.Models.Response;
+import Server.Models.Responses.AuthTokenResponse;
+import Server.Models.Responses.MessageResponse;
 import Server.Models.User;
 
 public class LoginService {
-    public Response<AuthToken> loginUser(User user){
+    public AuthTokenResponse loginUser(User user){
         return null;
     }
     public MessageResponse LogoutUser(User user){

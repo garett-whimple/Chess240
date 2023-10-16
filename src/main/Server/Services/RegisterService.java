@@ -15,7 +15,7 @@ public class RegisterService {
 
     /**
      * Registers the given user and adds them to the database
-     * @param user
+     * @param user User Object that has Username, Password, and Email fields
      * @return AuthTokenResponse
      */
     public AuthTokenResponse registerUser(User user){

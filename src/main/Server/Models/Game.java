@@ -30,11 +30,11 @@ public class Game {
 
     /**
      * Constructor that creates a Game Object
-     * @param gameId
-     * @param whiteUserName
-     * @param blackUserName
-     * @param gameName
-     * @param game
+     * @param gameId Identification number of the Game
+     * @param whiteUserName Username of the user playing white
+     * @param blackUserName Name that is given to the game
+     * @param gameName Name that is given to the game
+     * @param game Variable that holds the game object (has information like board and the current turn)
      */
     public Game(int gameId, String whiteUserName, String blackUserName, String gameName, ChessGame game) {
         this.gameId = gameId;
@@ -46,10 +46,10 @@ public class Game {
 
     /**
      * Constructor that creates a Game Object
-     * @param gameId
-     * @param whiteUserName
-     * @param blackUserName
-     * @param gameName
+     * @param gameId Identification number of the Game
+     * @param whiteUserName Username of the user playing white
+     * @param blackUserName Name that is given to the game
+     * @param gameName Name that is given to the game
      */
     public Game(int gameId, String whiteUserName, String blackUserName, String gameName) {
         this.gameId = gameId;

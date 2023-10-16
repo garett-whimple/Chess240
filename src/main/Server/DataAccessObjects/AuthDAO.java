@@ -18,9 +18,9 @@ public class AuthDAO {
 
     /**
      * Finds the authToken of a given User
-     * @param username
+     * @param username username of the User
      * @return AuthToken
-     * @throws DataAccessException
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public AuthToken find(String username) throws DataAccessException {
         return null;
@@ -29,7 +29,7 @@ public class AuthDAO {
     /**
      * Finds all the authTokens in the database
      * @return Collection of AuthToken
-     * @throws DataAccessException
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public Collection<AuthToken> findAll() throws DataAccessException {
         return null;
@@ -37,8 +37,8 @@ public class AuthDAO {
 
     /**
      * Removes a given authToken
-     * @param username
-     * @throws DataAccessException
+     * @param username username of the User
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void remove(String username) throws DataAccessException {
 
@@ -46,7 +46,7 @@ public class AuthDAO {
 
     /**
      * Clears the database of all authTokens
-     * @throws DataAccessException
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void clear() throws DataAccessException {
 
@@ -54,8 +54,8 @@ public class AuthDAO {
 
     /**
      * Inserts the given authToken into the database
-     * @param authToken
-     * @throws DataAccessException
+     * @param authToken Object that has AuthToken and Username fields
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void insert(AuthToken authToken) throws DataAccessException {
 
@@ -63,8 +63,8 @@ public class AuthDAO {
 
     /**
      * Updates the given authToken in the database
-     * @param authToken
-     * @throws DataAccessException
+     * @param authToken Object that has AuthToken and Username fields
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void update(AuthToken authToken) throws DataAccessException {
 

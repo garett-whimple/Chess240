@@ -19,9 +19,9 @@ public class User {
 
     /**
      * Constructor that creates a User Object
-     * @param username
-     * @param password
-     * @param email
+     * @param username Identifier of the User Object
+     * @param password Password used to validate the User
+     * @param email Email of the user
      */
     public User(String username, String password, String email) {
         this.username = username;

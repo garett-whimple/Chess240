@@ -21,6 +21,13 @@ public class AuthTokenResponse {
      */
     String authToken;
 
+    /**
+     * Constructor that creates a AuthTokenResponse Object
+     * @param message Is the error message of the response if there is one
+     * @param returnCode Is the return Code of the response
+     * @param username Username of the user
+     * @param authToken AuthToken connected to the user
+     */
     public AuthTokenResponse(String message, int returnCode, String username, String authToken) {
         this.message = message;
         this.returnCode = returnCode;

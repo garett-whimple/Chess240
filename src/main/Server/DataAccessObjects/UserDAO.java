@@ -18,9 +18,9 @@ public class UserDAO {
 
     /**
      * Returns the user with the given username
-     * @param username
+     * @param username username of the User
      * @return User
-     * @throws DataAccessException
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public User find(String username) throws DataAccessException {
         return null;
@@ -29,7 +29,7 @@ public class UserDAO {
     /**
      * Returns all the users
      * @return Collection of Users
-     * @throws DataAccessException
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public Collection<User> findAll() throws DataAccessException {
         return null;
@@ -37,8 +37,8 @@ public class UserDAO {
 
     /**
      * Removes a user with the given username
-     * @param username
-     * @throws DataAccessException
+     * @param username username of the User
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void remove(String username) throws DataAccessException {
 
@@ -46,7 +46,7 @@ public class UserDAO {
 
     /**
      * clears all users from the database
-     * @throws DataAccessException
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void clear() throws DataAccessException {
 
@@ -54,8 +54,8 @@ public class UserDAO {
 
     /**
      * Inserts the given user into the database
-     * @param user
-     * @throws DataAccessException
+     * @param user Object that has username, password, and email fields
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void insert(User user) throws DataAccessException {
 
@@ -63,8 +63,8 @@ public class UserDAO {
 
     /**
      * Updates the given user in the database
-     * @param user
-     * @throws DataAccessException
+     * @param user Object that has username, password, and email fields
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void update(User user) throws DataAccessException {
 

@@ -15,8 +15,8 @@ public class AuthToken {
 
     /**
      * Constructor to create a AuthToken Object
-     * @param authToken
-     * @param username
+     * @param authToken String of the AuthToken
+     * @param username String of the username
      */
     public AuthToken(String authToken, String username) {
         this.authToken = authToken;

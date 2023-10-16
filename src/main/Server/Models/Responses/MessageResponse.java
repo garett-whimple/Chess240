@@ -15,8 +15,8 @@ public class MessageResponse {
 
     /**
      * Constructor to create a MessageResponse Object
-     * @param message
-     * @param returnCode
+     * @param message Is the error message of the response if there is one
+     * @param returnCode Is the return Code of the response
      */
     public MessageResponse(String message, int returnCode) {
         this.message = message;

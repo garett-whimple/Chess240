@@ -16,7 +16,7 @@ public class LoginService {
 
     /**
      * Login the given User
-     * @param user
+     * @param user User Object that has Username, Password, and Email fields
      * @return AuthTokenResponse
      */
     public AuthTokenResponse loginUser(User user){
@@ -25,7 +25,7 @@ public class LoginService {
 
     /**
      * Logout the given user
-     * @param user
+     * @param user User Object that has Username, Password, and Email fields
      * @return MessageResponse
      */
     public MessageResponse LogoutUser(User user){

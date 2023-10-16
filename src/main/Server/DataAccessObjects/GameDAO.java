@@ -17,9 +17,9 @@ public class GameDAO {
 
     /**
      * Finds a game when given the corresponding id
-     * @param id
+     * @param id id of the Game
      * @return Game
-     * @throws DataAccessException
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public Game find(int id) throws DataAccessException {
         return null;
@@ -28,7 +28,7 @@ public class GameDAO {
     /**
      * Finds all the current games
      * @return Collection of Games
-     * @throws DataAccessException
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public Collection<Game> findAll() throws DataAccessException {
         return null;
@@ -36,8 +36,8 @@ public class GameDAO {
 
     /**
      * Removes the game with the corresponding id from the database
-     * @param id
-     * @throws DataAccessException
+     * @param id id of the Game
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void remove(int id) throws DataAccessException {
 
@@ -45,7 +45,7 @@ public class GameDAO {
 
     /**
      * clears the database of all games
-     * @throws DataAccessException
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void clear() throws DataAccessException {
 
@@ -53,8 +53,8 @@ public class GameDAO {
 
     /**
      * Inserts the given game into the database
-     * @param game
-     * @throws DataAccessException
+     * @param game Object that has gameId, whiteUserName, blackUserName, gameName, and game fields
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void insert(Game game) throws DataAccessException {
 
@@ -62,8 +62,8 @@ public class GameDAO {
 
     /**
      * Updates a game in the database
-     * @param game
-     * @throws DataAccessException
+     * @param game Object that has gameId, whiteUserName, blackUserName, gameName, and game fields
+     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void update(Game game) throws DataAccessException {
 

@@ -34,9 +34,9 @@ public class JoinGameService {
 
     /**
      * Add a user to a given game
-     * @param game
-     * @param color
-     * @return
+     * @param game Game Object that has needed GameId field
+     * @param color ChessGame.TeamColor is the color that the User will be assigned
+     * @return MessageResponse
      */
     public MessageResponse joinGame(Game game, ChessGame.TeamColor color){
         return null;

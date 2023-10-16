@@ -23,9 +23,9 @@ public class ListGameResponse {
 
     /**
      * Constructor that creates a ListGameResponse Object
-     * @param message
-     * @param returnCode
-     * @param games
+     * @param message Is the error message of the response if there is one
+     * @param returnCode Is the return Code of the response
+     * @param games An array of game Objects
      */
     public ListGameResponse(String message, int returnCode, ArrayList<Game> games) {
         this.message = message;

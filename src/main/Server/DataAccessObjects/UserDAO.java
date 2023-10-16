@@ -19,7 +19,7 @@ public class UserDAO {
     }
 
     /**
-     * Returns all of the users
+     * Returns all the users
      * @return Collection of Users
      * @throws DataAccessException
      */

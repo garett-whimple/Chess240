@@ -18,7 +18,7 @@ public class AuthDAO {
     }
 
     /**
-     * Finds all of the authTokens in the database
+     * Finds all the authTokens in the database
      * @return Collection of AuthToken
      * @throws DataAccessException
      */

@@ -17,7 +17,7 @@ public class GameDAO {
     }
 
     /**
-     * Finds all of the current games
+     * Finds all the current games
      * @return Collection of Games
      * @throws DataAccessException
      */

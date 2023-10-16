@@ -13,18 +13,34 @@ public class AuthTokenResponse {
         this.authToken = authToken;
     }
 
+    /**
+     * Returns the message
+     * @return message
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * returns the returnCode
+     * @return returnCode
+     */
     public int getReturnCode() {
         return returnCode;
     }
 
+    /**
+     * Returns the username
+     * @return username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Returns the authToken
+     * @return authToken
+     */
     public String getAuthToken() {
         return authToken;
     }

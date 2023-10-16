@@ -9,7 +9,7 @@ public class GameDAO {
     /**
      * Finds a game when given the corresponding id
      * @param id
-     * @return
+     * @return Game
      * @throws DataAccessException
      */
     public Game find(int id) throws DataAccessException {
@@ -18,7 +18,7 @@ public class GameDAO {
 
     /**
      * Finds all of the current games
-     * @return
+     * @return Collection of Games
      * @throws DataAccessException
      */
     public Collection<Game> findAll() throws DataAccessException {

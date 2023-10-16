@@ -11,7 +11,7 @@ public class UserDAO {
     /**
      * Returns the user with the given username
      * @param username
-     * @return
+     * @return User
      * @throws DataAccessException
      */
     public User find(String username) throws DataAccessException {
@@ -20,7 +20,7 @@ public class UserDAO {
 
     /**
      * Returns all of the users
-     * @return
+     * @return Collection of Users
      * @throws DataAccessException
      */
     public Collection<User> findAll() throws DataAccessException {

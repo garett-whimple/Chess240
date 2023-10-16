@@ -10,7 +10,7 @@ public class AuthDAO {
     /**
      * Finds the authToken of a given User
      * @param username
-     * @return
+     * @return AuthToken
      * @throws DataAccessException
      */
     public AuthToken find(String username) throws DataAccessException {
@@ -19,7 +19,7 @@ public class AuthDAO {
 
     /**
      * Finds all of the authTokens in the database
-     * @return
+     * @return Collection of AuthToken
      * @throws DataAccessException
      */
     public Collection<AuthToken> findAll() throws DataAccessException {

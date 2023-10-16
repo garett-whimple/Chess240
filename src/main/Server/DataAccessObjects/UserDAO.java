@@ -7,6 +7,11 @@ import javax.xml.crypto.Data;
 import java.util.Collection;
 
 public class UserDAO {
+    /**
+     * Constructor that creates a UserDAO Object
+     */
+    public UserDAO() {
+    }
 
     /**
      * Returns the user with the given username

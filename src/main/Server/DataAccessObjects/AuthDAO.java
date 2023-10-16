@@ -8,6 +8,12 @@ import java.util.Collection;
 
 public class AuthDAO {
     /**
+     * Constructor that creates a AuthDAO Object
+     */
+    public AuthDAO() {
+    }
+
+    /**
      * Finds the authToken of a given User
      * @param username
      * @return AuthToken

@@ -7,6 +7,12 @@ import java.util.Collection;
 
 public class GameDAO {
     /**
+     * Constructor that creates a GameDAO Object
+     */
+    public GameDAO() {
+    }
+
+    /**
      * Finds a game when given the corresponding id
      * @param id
      * @return Game

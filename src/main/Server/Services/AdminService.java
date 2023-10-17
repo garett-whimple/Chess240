@@ -1,6 +1,6 @@
 package Server.Services;
 
-import Server.Models.Responses.MessageResponse;
+import Server.Services.Responses.MessageResponse;
 
 /**
  * Class that deals with any administration server functionality

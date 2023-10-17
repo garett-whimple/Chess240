@@ -1,13 +1,9 @@
-package Server.Models.Responses;
-
-import Server.Models.Game;
-
-import java.util.ArrayList;
+package Server.Services.Responses;
 
 /**
- * Response Object that holds information for a list of Games
+ * Response Object that holds information for void responses
  */
-public class ListGameResponse {
+public class MessageResponse {
     /**
      * Is the error message of the response if there is one
      */
@@ -16,21 +12,15 @@ public class ListGameResponse {
      * Is the return Code of the response
      */
     int returnCode;
-    /**
-     * An array of game Objects
-     */
-    private ArrayList<Game> games;
 
     /**
-     * Constructor that creates a ListGameResponse Object
+     * Constructor to create a MessageResponse Object
      * @param message Is the error message of the response if there is one
      * @param returnCode Is the return Code of the response
-     * @param games An array of game Objects
      */
-    public ListGameResponse(String message, int returnCode, ArrayList<Game> games) {
+    public MessageResponse(String message, int returnCode) {
         this.message = message;
         this.returnCode = returnCode;
-        this.games = games;
     }
 
     /**
@@ -47,13 +37,5 @@ public class ListGameResponse {
      */
     public int getReturnCode() {
         return returnCode;
-    }
-
-    /**
-     * Returns games
-     * @return games
-     */
-    public ArrayList<Game> getGames() {
-        return games;
     }
 }

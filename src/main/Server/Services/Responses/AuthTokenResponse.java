@@ -1,4 +1,4 @@
-package Server.Models.Responses;
+package Server.Services.Responses;
 
 /**
  * Response Object that holds information for an AuthToken

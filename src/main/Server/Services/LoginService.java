@@ -1,7 +1,8 @@
 package Server.Services;
 
-import Server.Models.Responses.AuthTokenResponse;
-import Server.Models.Responses.MessageResponse;
+import Server.Models.AuthToken;
+import Server.Services.Responses.AuthTokenResponse;
+import Server.Services.Responses.MessageResponse;
 import Server.Models.User;
 
 /**
@@ -25,10 +26,10 @@ public class LoginService {
 
     /**
      * Logout the given user
-     * @param user User Object that has Username, Password, and Email fields
+     * @param  authToken authToken Object that has Username and authToken fields
      * @return MessageResponse
      */
-    public MessageResponse LogoutUser(User user){
+    public MessageResponse LogoutUser(AuthToken authToken){
         return null;
     }
 }

@@ -1,9 +1,9 @@
-package Server.Models.Responses;
+package Server.Services.Responses;
 
 /**
- * Response Object that holds information for void responses
+ * Response Object that holds information for a Game
  */
-public class MessageResponse {
+public class GameResponse {
     /**
      * Is the error message of the response if there is one
      */
@@ -12,19 +12,25 @@ public class MessageResponse {
      * Is the return Code of the response
      */
     int returnCode;
+    /**
+     * ID of the game
+     */
+    int gameID;
 
     /**
-     * Constructor to create a MessageResponse Object
+     * Constructor to make a GameResponse Object
      * @param message Is the error message of the response if there is one
      * @param returnCode Is the return Code of the response
+     * @param gameID ID of the game
      */
-    public MessageResponse(String message, int returnCode) {
+    public GameResponse(String message, int returnCode, int gameID) {
         this.message = message;
         this.returnCode = returnCode;
+        this.gameID = gameID;
     }
 
     /**
-     * Returns message
+     * Returns the message
      * @return message
      */
     public String getMessage() {
@@ -32,10 +38,18 @@ public class MessageResponse {
     }
 
     /**
-     * Returns returnCode
+     * Returns the returnCode
      * @return returnCode
      */
     public int getReturnCode() {
         return returnCode;
+    }
+
+    /**
+     * Returns the gameID
+     * @return gameID
+     */
+    public int getGameID() {
+        return gameID;
     }
 }

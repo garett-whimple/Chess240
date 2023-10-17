@@ -1,4 +1,4 @@
-package Server.Models.Requests;
+package Server.Services.Requests;
 
 import chess.ChessGame;
 

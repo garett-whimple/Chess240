@@ -5,11 +5,13 @@ import dataAccess.DataAccessException;
 
 import javax.xml.crypto.Data;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * DAO for the authToken table
  */
 public class AuthDAO {
+    private Map<String, AuthToken> authTokenMap;
     /**
      * Constructor that creates a AuthDAO Object
      */
@@ -23,7 +25,7 @@ public class AuthDAO {
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public AuthToken find(String authToken) throws DataAccessException {
-        return null;
+        return authTokenMap.get(authToken);
     }
 
     /**
@@ -32,7 +34,7 @@ public class AuthDAO {
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void remove(String authToken) throws DataAccessException {
-
+        authTokenMap.remove(authToken);
     }
 
     /**
@@ -40,7 +42,7 @@ public class AuthDAO {
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void clear() throws DataAccessException {
-
+        authTokenMap.clear();
     }
 
     /**
@@ -49,6 +51,6 @@ public class AuthDAO {
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void insert(AuthToken authToken) throws DataAccessException {
-
+        authTokenMap.put(authToken.getAuthToken(), authToken);
     }
 }

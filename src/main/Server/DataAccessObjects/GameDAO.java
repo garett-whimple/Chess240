@@ -3,12 +3,15 @@ package Server.DataAccessObjects;
 import Server.Models.Game;
 import dataAccess.DataAccessException;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * DAO for the game table
  */
 public class GameDAO {
+    private Map<Integer, Game> gameMap;
     /**
      * Constructor that creates a GameDAO Object
      */
@@ -22,7 +25,7 @@ public class GameDAO {
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public Game find(int id) throws DataAccessException {
-        return null;
+        return gameMap.get(id);
     }
 
     /**
@@ -31,7 +34,11 @@ public class GameDAO {
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public Collection<Game> findAll() throws DataAccessException {
-        return null;
+        ArrayList<Game> gameArray = new ArrayList<>();
+        gameMap.forEach((key, value) -> {
+            gameArray.add(value);
+        });
+        return gameArray;
     }
 
     /**
@@ -40,7 +47,7 @@ public class GameDAO {
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void remove(int id) throws DataAccessException {
-
+        gameMap.remove(id);
     }
 
     /**
@@ -48,7 +55,7 @@ public class GameDAO {
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void clear() throws DataAccessException {
-
+        gameMap.clear();
     }
 
     /**
@@ -57,7 +64,7 @@ public class GameDAO {
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void insert(Game game) throws DataAccessException {
-
+        gameMap.put(game.getGameId(), game);
     }
 
     /**
@@ -66,6 +73,6 @@ public class GameDAO {
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void update(Game game) throws DataAccessException {
-
+        gameMap.put(game.getGameId(), game);
     }
 }

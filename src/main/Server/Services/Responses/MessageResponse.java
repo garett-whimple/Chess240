@@ -11,7 +11,7 @@ public class MessageResponse {
     /**
      * Is the return Code of the response
      */
-    int returnCode;
+    Integer returnCode;
 
     /**
      * Constructor to create a MessageResponse Object
@@ -37,5 +37,8 @@ public class MessageResponse {
      */
     public int getReturnCode() {
         return returnCode;
+    }
+    public void setReturnCodeNull() {
+        this.returnCode = null;
     }
 }

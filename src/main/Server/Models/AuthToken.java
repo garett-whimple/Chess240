@@ -1,5 +1,7 @@
 package Server.Models;
 
+import java.util.Objects;
+
 /**
  * Object that represents a AuthToken
  */
@@ -37,5 +39,17 @@ public class AuthToken {
      */
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AuthToken authToken1)) return false;
+        return Objects.equals(getAuthToken(), authToken1.getAuthToken()) && Objects.equals(getUsername(), authToken1.getUsername());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAuthToken(), getUsername());
     }
 }

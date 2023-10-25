@@ -1,5 +1,7 @@
 package Server.Models;
 
+import java.util.Objects;
+
 /**
  * Object that represents a User
  */
@@ -29,6 +31,9 @@ public class User {
         this.email = email;
     }
 
+    public User() {
+    }
+
     /**
      * Returns username
      * @return username
@@ -51,5 +56,29 @@ public class User {
      */
     public String getEmail() {
         return email;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getEmail(), user.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUsername(), getPassword(), getEmail());
     }
 }

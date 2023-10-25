@@ -11,11 +11,11 @@ public class GameResponse {
     /**
      * Is the return Code of the response
      */
-    int returnCode;
+    Integer returnCode;
     /**
      * ID of the game
      */
-    int gameID;
+    Integer gameID;
 
     /**
      * Constructor to make a GameResponse Object
@@ -23,7 +23,7 @@ public class GameResponse {
      * @param returnCode Is the return Code of the response
      * @param gameID ID of the game
      */
-    public GameResponse(String message, int returnCode, int gameID) {
+    public GameResponse(String message, int returnCode, Integer gameID) {
         this.message = message;
         this.returnCode = returnCode;
         this.gameID = gameID;
@@ -51,5 +51,8 @@ public class GameResponse {
      */
     public int getGameID() {
         return gameID;
+    }
+    public void setReturnCodeNull() {
+        this.returnCode = null;
     }
 }

@@ -5,6 +5,7 @@ import dataAccess.DataAccessException;
 
 import javax.xml.crypto.Data;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -14,8 +15,9 @@ public class UserDAO {
     /**
      * Constructor that creates a UserDAO Object
      */
-    private Map<String, User> userMap;
+    private Map<String, User> userMap = new HashMap<>();
     public UserDAO() {
+
     }
 
     /**

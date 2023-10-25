@@ -5,13 +5,14 @@ import dataAccess.DataAccessException;
 
 import javax.xml.crypto.Data;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * DAO for the authToken table
  */
 public class AuthDAO {
-    private Map<String, AuthToken> authTokenMap;
+    private Map<String, AuthToken> authTokenMap = new HashMap<>();
     /**
      * Constructor that creates a AuthDAO Object
      */

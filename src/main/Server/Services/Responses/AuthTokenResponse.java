@@ -11,7 +11,7 @@ public class AuthTokenResponse {
     /**
      * Is the return Code of the response
      */
-    int returnCode;
+    Integer returnCode;
     /**
      * Username of the user
      */
@@ -65,5 +65,8 @@ public class AuthTokenResponse {
      */
     public String getAuthToken() {
         return authToken;
+    }
+    public void setReturnCodeNull() {
+        this.returnCode = null;
     }
 }

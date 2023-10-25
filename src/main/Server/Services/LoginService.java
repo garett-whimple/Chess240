@@ -1,18 +1,28 @@
 package Server.Services;
 
+import Server.DataAccessObjects.AuthDAO;
+import Server.DataAccessObjects.UserDAO;
 import Server.Models.AuthToken;
 import Server.Services.Responses.AuthTokenResponse;
 import Server.Services.Responses.MessageResponse;
 import Server.Models.User;
+import dataAccess.DataAccessException;
+
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Class that deals with any Session server functionality
  */
 public class LoginService {
+    private AuthDAO authDAO;
+    private UserDAO userDAO;
     /**
      * Constructor that creates a LoginService Object
      */
-    public LoginService() {
+    public LoginService(AuthDAO authDAO, UserDAO userDAO) {
+        this.authDAO = authDAO;
+        this.userDAO = userDAO;
     }
 
     /**
@@ -21,7 +31,22 @@ public class LoginService {
      * @return AuthTokenResponse
      */
     public AuthTokenResponse loginUser(User user){
-        return null;
+        AuthTokenResponse returnResponse = null;
+        try {
+            User foundUser = userDAO.find(user.getUsername());
+            if (foundUser == null || !Objects.equals(foundUser.getPassword(), user.getPassword())) {
+                returnResponse =  new AuthTokenResponse("Error: unauthorized", 401, null, null);
+            } else {
+                String authToken = UUID.randomUUID().toString();
+                AuthToken newAuthToken = new AuthToken(authToken, user.getUsername());
+                authDAO.insert(newAuthToken);
+                returnResponse = new AuthTokenResponse(null, 200, newAuthToken.getUsername(), newAuthToken.getAuthToken());
+            }
+        } catch (DataAccessException e) {
+            String returnMessage = "Error: " + e.getMessage();
+            returnResponse =  new AuthTokenResponse(returnMessage, 500, null, null);
+        }
+        return returnResponse;
     }
 
     /**
@@ -30,6 +55,14 @@ public class LoginService {
      * @return MessageResponse
      */
     public MessageResponse LogoutUser(AuthToken authToken){
-        return null;
+        MessageResponse returnResponse = null;
+        try {
+            authDAO.remove(authToken.getAuthToken());
+            returnResponse = new MessageResponse(null, 200);
+        } catch (DataAccessException e) {
+            String returnMessage = "Error: " + e.getMessage();
+            returnResponse =  new MessageResponse(returnMessage, 500);
+        }
+        return returnResponse;
     }
 }

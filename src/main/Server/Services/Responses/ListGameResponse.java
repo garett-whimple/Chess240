@@ -15,7 +15,7 @@ public class ListGameResponse {
     /**
      * Is the return Code of the response
      */
-    int returnCode;
+    Integer returnCode;
     /**
      * An array of game Objects
      */
@@ -55,5 +55,8 @@ public class ListGameResponse {
      */
     public ArrayList<Game> getGames() {
         return games;
+    }
+    public void setReturnCodeNull() {
+        this.returnCode = null;
     }
 }

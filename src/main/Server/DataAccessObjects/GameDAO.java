@@ -5,13 +5,14 @@ import dataAccess.DataAccessException;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * DAO for the game table
  */
 public class GameDAO {
-    private Map<Integer, Game> gameMap;
+    private Map<Integer, Game> gameMap = new HashMap<>();
     /**
      * Constructor that creates a GameDAO Object
      */

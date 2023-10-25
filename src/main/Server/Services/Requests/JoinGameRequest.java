@@ -9,7 +9,7 @@ public class JoinGameRequest {
     /**
      * ID of the game that is trying to be joined
      */
-    int gameId;
+    Integer gameID;
     /**
      * Username of the user joining
      */
@@ -17,29 +17,33 @@ public class JoinGameRequest {
     /**
      * Color the user will join as
      */
-    ChessGame.TeamColor color;
+    ChessGame.TeamColor playerColor;
 
     /**
      * Constructor that creates a JoinGameRequest Object
-     * @param gameId ID of the game that is trying to be joined
+     * @param gameID ID of the game that is trying to be joined
      * @param username Username of the user joining
-     * @param color Color the user will join as
+     * @param playerColor Color the user will join as
      */
-    public JoinGameRequest(int gameId, String username, ChessGame.TeamColor color) {
-        this.gameId = gameId;
+    public JoinGameRequest(int gameID, String username, ChessGame.TeamColor playerColor) {
+        this.gameID = gameID;
         this.username = username;
-        this.color = color;
+        this.playerColor = playerColor;
     }
 
-    public int getGameId() {
-        return gameId;
+    public Integer getGameID() {
+        return gameID;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public ChessGame.TeamColor getColor() {
-        return color;
+    public ChessGame.TeamColor getPlayerColor() {
+        return playerColor;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

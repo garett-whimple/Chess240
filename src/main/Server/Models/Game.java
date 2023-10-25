@@ -3,6 +3,8 @@ package Server.Models;
 import ChessImpl.ChessGameImpl;
 import chess.ChessGame;
 
+import java.util.Objects;
+
 /**
  * Object that represents a Game
  */
@@ -97,5 +99,29 @@ public class Game {
      */
     public ChessGame getGame() {
         return game;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
+    }
+
+    public void setWhiteUserName(String whiteUserName) {
+        this.whiteUserName = whiteUserName;
+    }
+
+    public void setBlackUserName(String blackUserName) {
+        this.blackUserName = blackUserName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Game game1)) return false;
+        return getGameId() == game1.getGameId() && Objects.equals(getWhiteUserName(), game1.getWhiteUserName()) && Objects.equals(getBlackUserName(), game1.getBlackUserName()) && Objects.equals(getGameName(), game1.getGameName()) && Objects.equals(getGame(), game1.getGame());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getGameId(), getWhiteUserName(), getBlackUserName(), getGameName(), getGame());
     }
 }

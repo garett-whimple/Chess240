@@ -51,7 +51,7 @@ public class GameResponse {
      * Returns the gameID
      * @return gameID
      */
-    public int getGameID() {
+    public Integer getGameID() {
         return gameID;
     }
     public void setReturnCodeNull() {

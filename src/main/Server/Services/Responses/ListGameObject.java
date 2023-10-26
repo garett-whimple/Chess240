@@ -1,5 +1,7 @@
 package Server.Services.Responses;
 
+import java.util.Objects;
+
 public class ListGameObject {
     Integer gameID;
     String whiteUsername;
@@ -43,5 +45,17 @@ public class ListGameObject {
 
     public void setGameName(String gameName) {
         this.gameName = gameName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ListGameObject that)) return false;
+        return Objects.equals(getGameID(), that.getGameID()) && Objects.equals(getWhiteUsername(), that.getWhiteUsername()) && Objects.equals(getBlackUsername(), that.getBlackUsername()) && Objects.equals(getGameName(), that.getGameName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getGameID(), getWhiteUsername(), getBlackUsername(), getGameName());
     }
 }

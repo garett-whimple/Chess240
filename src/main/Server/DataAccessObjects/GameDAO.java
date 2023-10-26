@@ -19,6 +19,10 @@ public class GameDAO {
     public GameDAO() {
     }
 
+    public GameDAO(Map<Integer, Game> gameMap) {
+        this.gameMap = gameMap;
+    }
+
     /**
      * Finds a game when given the corresponding id
      * @param id id of the Game
@@ -35,6 +39,9 @@ public class GameDAO {
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public Collection<Game> findAll() throws DataAccessException {
+        if (gameMap == null) {
+            throw new DataAccessException("database not found");
+        }
         ArrayList<Game> gameArray = new ArrayList<>();
         gameMap.forEach((key, value) -> {
             gameArray.add(value);

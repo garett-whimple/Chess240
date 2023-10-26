@@ -35,6 +35,9 @@ public class AuthDAO {
      * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
      */
     public void remove(String authToken) throws DataAccessException {
+        if (find(authToken) == null) {
+            throw new DataAccessException("authToken does not exist");
+        }
         authTokenMap.remove(authToken);
     }
 

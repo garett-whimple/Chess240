@@ -12,7 +12,7 @@ public class Game {
     /**
      * Identification number of the Game
      */
-    private int gameId;
+    private Integer gameId;
     /**
      * Username of the user playing white
      */
@@ -38,7 +38,7 @@ public class Game {
      * @param gameName Name that is given to the game
      * @param gameBoard Variable that holds the game object (has information like board and the current turn)
      */
-    public Game(int gameId, String whiteUsername, String blackUsername, String gameName, ChessGame gameBoard) {
+    public Game(Integer gameId, String whiteUsername, String blackUsername, String gameName, ChessGame gameBoard) {
         this.gameId = gameId;
         this.whiteUsername = whiteUsername;
         this.blackUsername = blackUsername;
@@ -65,7 +65,7 @@ public class Game {
      * Returns gameId
      * @return gameId
      */
-    public int getGameId() {
+    public Integer getGameId() {
         return gameId;
     }
 

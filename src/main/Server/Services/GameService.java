@@ -57,9 +57,13 @@ public class GameService {
         GameResponse returnResponse = null;
         game.setGameId(currentGameID);
         try {
-            gameDAO.insert(game);
-            returnResponse = new GameResponse(null, 200, currentGameID);
-            currentGameID++;
+            if (game.getGameName() == null) {
+                returnResponse = new GameResponse("Error: bad request", 400, null);
+            } else {
+                gameDAO.insert(game);
+                returnResponse = new GameResponse(null, 200, currentGameID);
+                currentGameID++;
+            }
         } catch (DataAccessException e) {
             String returnMessage = "Error: " + e.getMessage();
             returnResponse =  new GameResponse(returnMessage, 500, null);

@@ -22,7 +22,7 @@ public class Server {
             int port = Integer.parseInt(args[0]);
             Spark.port(port);
 
-            Spark.staticFiles.location("/public");
+            Spark.staticFiles.location("/web");
 
             createRoutes();
 

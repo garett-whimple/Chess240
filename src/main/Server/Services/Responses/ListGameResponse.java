@@ -1,8 +1,7 @@
 package Server.Services.Responses;
 
-import Server.Models.Game;
-
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Response Object that holds information for a list of Games
@@ -19,7 +18,7 @@ public class ListGameResponse {
     /**
      * An array of game Objects
      */
-    private ArrayList<Game> games;
+    private ArrayList<ListGameObject> games;
 
     /**
      * Constructor that creates a ListGameResponse Object
@@ -27,7 +26,7 @@ public class ListGameResponse {
      * @param returnCode Is the return Code of the response
      * @param games An array of game Objects
      */
-    public ListGameResponse(String message, int returnCode, ArrayList<Game> games) {
+    public ListGameResponse(String message, int returnCode, ArrayList<ListGameObject> games) {
         this.message = message;
         this.returnCode = returnCode;
         this.games = games;
@@ -53,10 +52,22 @@ public class ListGameResponse {
      * Returns games
      * @return games
      */
-    public ArrayList<Game> getGames() {
+    public ArrayList<ListGameObject> getGames() {
         return games;
     }
     public void setReturnCodeNull() {
         this.returnCode = null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ListGameResponse that)) return false;
+        return Objects.equals(getMessage(), that.getMessage()) && Objects.equals(getReturnCode(), that.getReturnCode()) && Objects.equals(getGames(), that.getGames());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getMessage(), getReturnCode(), getGames());
     }
 }

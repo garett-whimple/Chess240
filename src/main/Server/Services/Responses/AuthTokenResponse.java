@@ -1,5 +1,7 @@
 package Server.Services.Responses;
 
+import java.util.Objects;
+
 /**
  * Response Object that holds information for an AuthToken
  */
@@ -68,5 +70,17 @@ public class AuthTokenResponse {
     }
     public void setReturnCodeNull() {
         this.returnCode = null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AuthTokenResponse response)) return false;
+        return Objects.equals(getMessage(), response.getMessage()) && Objects.equals(getReturnCode(), response.getReturnCode()) && Objects.equals(getUsername(), response.getUsername()) && Objects.equals(getAuthToken(), response.getAuthToken());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getMessage(), getReturnCode(), getUsername(), getAuthToken());
     }
 }

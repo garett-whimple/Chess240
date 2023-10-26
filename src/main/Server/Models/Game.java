@@ -16,11 +16,11 @@ public class Game {
     /**
      * Username of the user playing white
      */
-    private String whiteUserName;
+    private String whiteUsername;
     /**
      * Username of the user playing black
      */
-    private String blackUserName;
+    private String blackUsername;
     /**
      * Name that is given to the game
      */
@@ -28,37 +28,37 @@ public class Game {
     /**
      * Variable that holds the game object (has information like board and the current turn)
      */
-    private ChessGame game;
+    private ChessGame gameBoard;
 
     /**
      * Constructor that creates a Game Object
      * @param gameId Identification number of the Game
-     * @param whiteUserName Username of the user playing white
-     * @param blackUserName Name that is given to the game
+     * @param whiteUsername Username of the user playing white
+     * @param blackUsername Name that is given to the game
      * @param gameName Name that is given to the game
-     * @param game Variable that holds the game object (has information like board and the current turn)
+     * @param gameBoard Variable that holds the game object (has information like board and the current turn)
      */
-    public Game(int gameId, String whiteUserName, String blackUserName, String gameName, ChessGame game) {
+    public Game(int gameId, String whiteUsername, String blackUsername, String gameName, ChessGame gameBoard) {
         this.gameId = gameId;
-        this.whiteUserName = whiteUserName;
-        this.blackUserName = blackUserName;
+        this.whiteUsername = whiteUsername;
+        this.blackUsername = blackUsername;
         this.gameName = gameName;
-        this.game = game;
+        this.gameBoard = gameBoard;
     }
 
     /**
      * Constructor that creates a Game Object
      * @param gameId Identification number of the Game
-     * @param whiteUserName Username of the user playing white
-     * @param blackUserName Name that is given to the game
+     * @param whiteUsername Username of the user playing white
+     * @param blackUsername Name that is given to the game
      * @param gameName Name that is given to the game
      */
-    public Game(int gameId, String whiteUserName, String blackUserName, String gameName) {
+    public Game(int gameId, String whiteUsername, String blackUsername, String gameName) {
         this.gameId = gameId;
-        this.whiteUserName = whiteUserName;
-        this.blackUserName = blackUserName;
+        this.whiteUsername = whiteUsername;
+        this.blackUsername = blackUsername;
         this.gameName = gameName;
-        this.game = new ChessGameImpl();
+        this.gameBoard = new ChessGameImpl();
     }
 
     /**
@@ -70,19 +70,19 @@ public class Game {
     }
 
     /**
-     * Returns whiteUserName
-     * @return whiteUserName
+     * Returns whiteUsername
+     * @return whiteUsername
      */
-    public String getWhiteUserName() {
-        return whiteUserName;
+    public String getWhiteUsername() {
+        return whiteUsername;
     }
 
     /**
-     * Returns blackUserName
-     * @return blackUserName
+     * Returns blackUsername
+     * @return blackUsername
      */
-    public String getBlackUserName() {
-        return blackUserName;
+    public String getBlackUsername() {
+        return blackUsername;
     }
 
     /**
@@ -98,30 +98,34 @@ public class Game {
      * @return game
      */
     public ChessGame getGame() {
-        return game;
+        return gameBoard;
     }
 
     public void setGameId(int gameId) {
         this.gameId = gameId;
     }
 
-    public void setWhiteUserName(String whiteUserName) {
-        this.whiteUserName = whiteUserName;
+    public void setWhiteUserName(String whiteUsername) {
+        this.whiteUsername = whiteUsername;
     }
 
-    public void setBlackUserName(String blackUserName) {
-        this.blackUserName = blackUserName;
+    public void setBlackUserName(String blackUsername) {
+        this.blackUsername = blackUsername;
+    }
+
+    public void setGameBoard(ChessGame gameBoard) {
+        this.gameBoard = gameBoard;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Game game1)) return false;
-        return getGameId() == game1.getGameId() && Objects.equals(getWhiteUserName(), game1.getWhiteUserName()) && Objects.equals(getBlackUserName(), game1.getBlackUserName()) && Objects.equals(getGameName(), game1.getGameName()) && Objects.equals(getGame(), game1.getGame());
+        return getGameId() == game1.getGameId() && Objects.equals(getWhiteUsername(), game1.getWhiteUsername()) && Objects.equals(getBlackUsername(), game1.getBlackUsername()) && Objects.equals(getGameName(), game1.getGameName()) && Objects.equals(getGame(), game1.getGame());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getGameId(), getWhiteUserName(), getBlackUserName(), getGameName(), getGame());
+        return Objects.hash(getGameId(), getWhiteUsername(), getBlackUsername(), getGameName(), getGame());
     }
 }

@@ -55,11 +55,7 @@ public class HtmlHandler {
         MessageResponse result = adminService.clearDatabase();
         res.type("application/json");
         res.status(result.getReturnCode());
-        if (result.getReturnCode() == 200) {
-            return "";
-        } else {
-            return gson.toJson(result);
-        }
+        return gson.toJson(result);
     }
 
     public static String logoutHandler(Request req, Response res) {
@@ -77,9 +73,6 @@ public class HtmlHandler {
         }
         res.type("application/json");
         res.status(result.getReturnCode());
-        if (result.getReturnCode() == 200) {
-            return "";
-        }
         result.setReturnCodeNull();
         return gson.toJson(result);
     }
@@ -148,9 +141,6 @@ public class HtmlHandler {
         }
         res.type("application/json");
         res.status(result.getReturnCode());
-        if (result.getReturnCode() == 200) {
-            return "";
-        }
         result.setReturnCodeNull();
         return gson.toJson(result);
     }

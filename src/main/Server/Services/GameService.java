@@ -3,10 +3,7 @@ package Server.Services;
 import Server.DataAccessObjects.GameDAO;
 import Server.Models.Game;
 import Server.Services.Requests.JoinGameRequest;
-import Server.Services.Responses.AuthTokenResponse;
-import Server.Services.Responses.GameResponse;
-import Server.Services.Responses.MessageResponse;
-import Server.Services.Responses.ListGameResponse;
+import Server.Services.Responses.*;
 import chess.ChessGame;
 import dataAccess.DataAccessException;
 
@@ -16,7 +13,7 @@ import java.util.ArrayList;
  * Class that deals with any Game server functionality
  */
 public class GameService {
-    int currentGameID = 0;
+    int currentGameID = 1;
     GameDAO gameDAO;
     /**
      * Constructor that creates a GameService Object
@@ -33,7 +30,18 @@ public class GameService {
         ListGameResponse result = null;
         try {
             ArrayList<Game> gameArray = (ArrayList<Game>) gameDAO.findAll();
-            result = new ListGameResponse(null, 200, gameArray);
+            ArrayList<ListGameObject> listGameObjectArray = new ArrayList<>();
+            for(Game game : gameArray) {
+                if (game.getWhiteUsername() == null) {
+                    game.setWhiteUserName(null);
+                }
+                if (game.getBlackUsername() == null) {
+                    game.setBlackUserName(null);
+                }
+                ListGameObject currentListGameObject = new ListGameObject(game.getGameId(),game.getWhiteUsername(), game.getBlackUsername(),game.getGameName());
+                listGameObjectArray.add(currentListGameObject);
+            }
+            result = new ListGameResponse(null, 200, listGameObjectArray);
         } catch (DataAccessException e) {
             result = new ListGameResponse("Error: " + e.getMessage(), 500, null);
         }
@@ -68,9 +76,11 @@ public class GameService {
         MessageResponse result = null;
         try {
             Game game = gameDAO.find(joinGameRequest.getGameID());
-            if (joinGameRequest.getPlayerColor() == ChessGame.TeamColor.BLACK && game.getBlackUserName() != null){
+            if (game == null) {
+                result = new MessageResponse("Error: bad request", 400);
+            } else if (joinGameRequest.getPlayerColor() == ChessGame.TeamColor.BLACK && game.getBlackUsername() != null){
                 result = new MessageResponse("Error: already taken", 403);
-            } else if (joinGameRequest.getPlayerColor() == ChessGame.TeamColor.WHITE && game.getWhiteUserName() != null) {
+            } else if (joinGameRequest.getPlayerColor() == ChessGame.TeamColor.WHITE && game.getWhiteUsername() != null) {
                 result = new MessageResponse("Error: already taken", 403);
             } else {
                 if (joinGameRequest.getPlayerColor() == ChessGame.TeamColor.BLACK) {

@@ -1,5 +1,7 @@
 package Server.Services.Responses;
 
+import java.util.Objects;
+
 /**
  * Response Object that holds information for a Game
  */
@@ -54,5 +56,17 @@ public class GameResponse {
     }
     public void setReturnCodeNull() {
         this.returnCode = null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GameResponse that)) return false;
+        return Objects.equals(getMessage(), that.getMessage()) && Objects.equals(getReturnCode(), that.getReturnCode()) && Objects.equals(getGameID(), that.getGameID());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getMessage(), getReturnCode(), getGameID());
     }
 }

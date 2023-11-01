@@ -149,4 +149,18 @@ public class DBAuthDAO {
         }
     }
 
+    public void remove(AuthToken authToken) throws DataAccessException{
+        Connection connection = db.getConnection();
+        try {
+            try (var preparedStatement = connection.prepareStatement("DELETE FROM AuthToken WHERE authToken = ?" )) {
+                preparedStatement.setString(1,authToken.getAuthToken());
+                preparedStatement.executeUpdate();
+            }
+        }
+        catch (SQLException ex) {
+            throw new DataAccessException(ex.toString());
+        } finally {
+            db.returnConnection(connection);
+        }
+    }
 }

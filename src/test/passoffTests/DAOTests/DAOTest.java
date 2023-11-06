@@ -1,7 +1,7 @@
 package passoffTests.DAOTests;
 
 import ChessImpl.ChessGameImpl;
-import Server.DataAccessObjects.DBAuthDAO;
+import Server.DataAccessObjects.AuthDAO;
 import Server.DataAccessObjects.DBGameDAO;
 import Server.DataAccessObjects.DBUserDAO;
 import Server.Models.AuthToken;
@@ -23,7 +23,7 @@ public class DAOTest {
 
     static Game newGame = new Game(null, "WHTIE_USERNAME", "BLACK_USERNAME", "GAME_NAME", new ChessGameImpl());
     DBGameDAO gameDAO = new DBGameDAO(db);
-    DBAuthDAO authDAO = new DBAuthDAO(db);
+    AuthDAO authDAO = new AuthDAO(db);
     DBUserDAO userDAO = new DBUserDAO(db);
     @BeforeAll
     public static void setupDB() throws DataAccessException{
@@ -50,7 +50,7 @@ public class DAOTest {
         AuthToken expectedResponse = new AuthToken("TestAuth", "TestUser");
         try {
             authDAO.insert(newAuth);
-            AuthToken response = authDAO.find(newAuth);
+            AuthToken response = authDAO.find(newAuth.getAuthToken());
             Assertions.assertEquals(expectedResponse, response);
         } catch (DataAccessException e) {
             throw new DataAccessException(e.getMessage());
@@ -62,7 +62,7 @@ public class DAOTest {
         AuthToken expectedResponse = null;
         try {
             authDAO.insert(new AuthToken("EMPTY USERNAME", null));
-            AuthToken response = authDAO.find(new AuthToken("EMPTY USERNAME", null));
+            AuthToken response = authDAO.find("EMPTY USERNAME");
             Assertions.assertEquals(expectedResponse, response);
         } catch (DataAccessException e) {
             throw new DataAccessException(e.getMessage());
@@ -74,7 +74,7 @@ public class DAOTest {
         AuthToken expectedResponse = new AuthToken("TestAuth", "TestUser");
         try {
             authDAO.insert(newAuth);
-            AuthToken response = authDAO.find(newAuth);
+            AuthToken response = authDAO.find(newAuth.getAuthToken());
             Assertions.assertEquals(expectedResponse, response);
         } catch (DataAccessException e) {
             throw new DataAccessException(e.getMessage());
@@ -85,7 +85,7 @@ public class DAOTest {
     public void invalidAuthFind() throws DataAccessException{
         AuthToken expectedResponse = null;
         try {
-            AuthToken response = authDAO.find(newAuth);
+            AuthToken response = authDAO.find(newAuth.getAuthToken());
             Assertions.assertEquals(expectedResponse, response);
         } catch (DataAccessException e) {
             throw new DataAccessException(e.getMessage());
@@ -98,7 +98,7 @@ public class DAOTest {
         try {
             authDAO.insert(newAuth);
             authDAO.clear();
-            AuthToken response = authDAO.find(newAuth);
+            AuthToken response = authDAO.find(newAuth.getAuthToken());
             Assertions.assertEquals(expectedResponse, response);
         } catch (DataAccessException e) {
             throw new DataAccessException(e.getMessage());
@@ -111,7 +111,7 @@ public class DAOTest {
         try {
             authDAO.insert(newAuth);
             authDAO.remove(newAuth);
-            AuthToken response = authDAO.find(newAuth);
+            AuthToken response = authDAO.find(newAuth.getAuthToken());
             Assertions.assertEquals(expectedResponse, response);
         } catch (DataAccessException e) {
             throw new DataAccessException(e.getMessage());
@@ -124,7 +124,7 @@ public class DAOTest {
         try {
             authDAO.insert(newAuth);
             authDAO.remove(new AuthToken("WRONG AUTHTOKEN", newAuth.getUsername()));
-            AuthToken response = authDAO.find(newAuth);
+            AuthToken response = authDAO.find(newAuth.getAuthToken());
             Assertions.assertEquals(expectedResponse, response);
         } catch (DataAccessException e) {
             throw new DataAccessException(e.getMessage());

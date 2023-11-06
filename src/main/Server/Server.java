@@ -11,7 +11,7 @@ import static spark.Spark.halt;
 public class Server {
     private static HtmlHandler instance;
 
-    public static HtmlHandler getInstance() {
+    public static HtmlHandler getInstance() throws DataAccessException {
         if (instance == null) {
             instance = new HtmlHandler();
         }

@@ -2,59 +2,94 @@ package Server.DataAccessObjects;
 
 import Server.Models.AuthToken;
 import dataAccess.DataAccessException;
+import dataAccess.Database;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-import javax.xml.crypto.Data;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * DAO for the authToken table
- */
 public class AuthDAO {
-    private Map<String, AuthToken> authTokenMap = new HashMap<>();
-    /**
-     * Constructor that creates a AuthDAO Object
-     */
-    public AuthDAO() {
+    Database db;
+
+    public AuthDAO(Database db) {
+        this.db = db;
     }
 
-    /**
-     * Finds the authToken of a given User
-     * @param authToken authToken of the User
-     * @return AuthToken
-     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
-     */
-    public AuthToken find(String authToken) throws DataAccessException {
-        return authTokenMap.get(authToken);
-    }
-
-    /**
-     * Removes a given authToken
-     * @param authToken AuthToken of the User
-     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
-     */
-    public void remove(String authToken) throws DataAccessException {
-        if (find(authToken) == null) {
-            throw new DataAccessException("authToken does not exist");
+    public AuthToken find(String authToken) throws DataAccessException{
+        Connection connection = db.getConnection();
+        try {
+            if (authToken == null) {
+                return null; //INVALID REQUEST
+            }
+            try (var preparedStatement = connection.prepareStatement("SELECT * FROM AuthToken WHERE authToken = ?" )) {
+                preparedStatement.setString(1,authToken);
+                try (var rs = preparedStatement.executeQuery()) {
+                    if (rs.next()) {
+                        String authTokenString = rs.getString("authToken");
+                        String username = rs.getString("username");
+                        return new AuthToken(authTokenString, username);
+                    } else {
+                        return null;
+                    }
+                }
+            }
         }
-        authTokenMap.remove(authToken);
+        catch (SQLException ex) {
+            throw new DataAccessException(ex.toString());
+        } finally {
+            db.returnConnection(connection);
+        }
     }
 
-    /**
-     * Clears the database of all authTokens
-     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
-     */
-    public void clear() throws DataAccessException {
-        authTokenMap.clear();
+    public void insert(AuthToken authToken) throws DataAccessException{
+        Connection connection = db.getConnection();
+        try {
+            if (find(authToken) != null) {
+                return; //ALREADY IN DATABASE
+            }
+            if (authToken.getUsername() == null || authToken.getAuthToken() == null) {
+                return; //INVALID REQUEST
+            }
+            try (var preparedStatement = connection.prepareStatement("INSERT INTO AuthToken (authToken, username) VALUE(?, ?)" )) {
+                preparedStatement.setString(1,authToken.getAuthToken());
+                preparedStatement.setString(2,authToken.getUsername());
+                preparedStatement.executeUpdate();
+            }
+        }
+        catch (SQLException ex) {
+            throw new DataAccessException(ex.toString());
+        } finally {
+            db.returnConnection(connection);
+        }
     }
 
-    /**
-     * Inserts the given authToken into the database
-     * @param authToken Object that has AuthToken and Username fields
-     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
-     */
-    public void insert(AuthToken authToken) throws DataAccessException {
-        authTokenMap.put(authToken.getAuthToken(), authToken);
+    public void clear() throws DataAccessException{
+        Connection connection = db.getConnection();
+        try {
+            try (var preparedStatement = connection.prepareStatement("TRUNCATE TABLE AuthToken" )) {
+                preparedStatement.executeUpdate();
+            }
+        }
+        catch (SQLException ex) {
+            throw new DataAccessException(ex.toString());
+        } finally {
+            db.returnConnection(connection);
+        }
+    }
+
+    public void remove(AuthToken authToken) throws DataAccessException{
+        Connection connection = db.getConnection();
+        try {
+            if (authToken.getAuthToken() == null) {
+                return; //INVALID REQUEST
+            }
+            try (var preparedStatement = connection.prepareStatement("DELETE FROM AuthToken WHERE authToken = ?" )) {
+                preparedStatement.setString(1,authToken.getAuthToken());
+                preparedStatement.executeUpdate();
+            }
+        }
+        catch (SQLException ex) {
+            throw new DataAccessException(ex.toString());
+        } finally {
+            db.returnConnection(connection);
+        }
     }
 }

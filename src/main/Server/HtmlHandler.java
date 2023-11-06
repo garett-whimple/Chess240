@@ -17,11 +17,13 @@ import Server.Services.Responses.ListGameResponse;
 import Server.Services.Responses.MessageResponse;
 import com.google.gson.Gson;
 import dataAccess.DataAccessException;
+import dataAccess.Database;
 import spark.Request;
 import spark.Response;
 
 public class HtmlHandler {
-    private static AuthDAO authDAO = new AuthDAO();
+    static Database db;
+    private static AuthDAO authDAO = new AuthDAO(db);
     private static UserDAO userDAO = new UserDAO();
     private static GameDAO gameDAO = new GameDAO();
     private static AdminService adminService = new AdminService(authDAO, userDAO, gameDAO);
@@ -29,6 +31,14 @@ public class HtmlHandler {
     private static LoginService loginService = new LoginService(authDAO, userDAO);
     private static RegisterService registerService = new RegisterService(userDAO, authDAO);
     private static Gson gson = new Gson();
+
+    public HtmlHandler() throws DataAccessException {
+        try {
+            db = new Database();
+        } catch (DataAccessException e) {
+            throw new DataAccessException(e.getMessage());
+        }
+    }
 
     public static String registerUserHandler(Request req, Response res) {
         User user = (User)gson.fromJson(req.body(), User.class);

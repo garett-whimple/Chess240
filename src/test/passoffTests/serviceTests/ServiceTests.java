@@ -27,7 +27,7 @@ public class ServiceTests {
     static Database db;
     GameDAO gameDAO = new GameDAO(db);
     AuthDAO authDAO = new AuthDAO(db);
-    UserDAO userDAO = new UserDAO();
+    UserDAO userDAO = new UserDAO(db);
     GameService gameService = new GameService(gameDAO);
     LoginService loginService = new LoginService(authDAO, userDAO);
     RegisterService registerService = new RegisterService(userDAO, authDAO);

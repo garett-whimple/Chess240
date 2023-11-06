@@ -2,48 +2,78 @@ package Server.DataAccessObjects;
 
 import Server.Models.User;
 import dataAccess.DataAccessException;
+import dataAccess.Database;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-import javax.xml.crypto.Data;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * DAO for the User table
- */
 public class UserDAO {
-    /**
-     * Constructor that creates a UserDAO Object
-     */
-    private Map<String, User> userMap = new HashMap<>();
-    public UserDAO() {
+    Database db;
 
+    public UserDAO(Database db) {
+        this.db = db;
     }
 
-    /**
-     * Returns the user with the given username
-     * @param username username of the User
-     * @return User
-     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
-     */
     public User find(String username) throws DataAccessException {
-        return userMap.get(username);
+        Connection connection = db.getConnection();
+        User returnUser = null;
+        try {
+            if (username == null) {
+                return null; //INVALID REQUEST
+            }
+            try (var preparedStatement = connection.prepareStatement("SELECT * FROM User WHERE username = ?" )) {
+                preparedStatement.setString(1,username);
+                try (var rs = preparedStatement.executeQuery()) {
+                    if (rs.next()) {
+                        String usernameString = rs.getString("username");
+                        String email = rs.getString("email");
+                        String password = rs.getString("password");
+                        returnUser = new User(usernameString, password, email);
+                    }
+                }
+            }
+            return returnUser;
+        }
+        catch (SQLException ex) {
+            throw new DataAccessException(ex.toString());
+        } finally {
+            db.returnConnection(connection);
+        }
     }
 
-    /**
-     * clears all users from the database
-     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
-     */
-    public void clear() throws DataAccessException {
-        userMap.clear();
+    public void insert(User user) throws DataAccessException{
+        Connection connection = db.getConnection();
+        try {
+            if (find(user.getUsername()) != null) {
+                return; //ALREADY IN DATABASE
+            }
+            if (user.getUsername() == null || user.getPassword() == null) {
+                return; //INVALID REQUEST
+            }
+            try (var preparedStatement = connection.prepareStatement("INSERT INTO User (username, password, email) VALUE(?, ?, ?)" )) {
+                preparedStatement.setString(1,user.getUsername());
+                preparedStatement.setString(2, user.getPassword());
+                preparedStatement.setString(3, user.getEmail());
+                preparedStatement.executeUpdate();
+            }
+        }
+        catch (SQLException ex) {
+            throw new DataAccessException(ex.toString());
+        } finally {
+            db.returnConnection(connection);
+        }
     }
 
-    /**
-     * Inserts the given user into the database
-     * @param user Object that has username, password, and email fields
-     * @throws DataAccessException problems connecting to the database or fulfilling the corresponding SQL commands
-     */
-    public void insert(User user) throws DataAccessException {
-        userMap.put(user.getUsername(), user);
+    public void clear() throws DataAccessException{
+        Connection connection = db.getConnection();
+        try {
+            try (var preparedStatement = connection.prepareStatement("TRUNCATE TABLE User" )) {
+                preparedStatement.executeUpdate();
+            }
+        }
+        catch (SQLException ex) {
+            throw new DataAccessException(ex.toString());
+        } finally {
+            db.returnConnection(connection);
+        }
     }
 }

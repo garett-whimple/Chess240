@@ -42,7 +42,7 @@ public class AuthDAO {
     public void insert(AuthToken authToken) throws DataAccessException{
         Connection connection = db.getConnection();
         try {
-            if (find(authToken) != null) {
+            if (find(authToken.getAuthToken()) != null) {
                 return; //ALREADY IN DATABASE
             }
             if (authToken.getUsername() == null || authToken.getAuthToken() == null) {

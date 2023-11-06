@@ -13,7 +13,10 @@ import Server.Services.RegisterService;
 import Server.Services.Requests.JoinGameRequest;
 import Server.Services.Responses.*;
 import chess.ChessGame;
+import dataAccess.DataAccessException;
+import dataAccess.Database;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,8 +24,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ServiceTests {
-    GameDAO gameDAO = new GameDAO();
-    AuthDAO authDAO = new AuthDAO();
+    static Database db;
+    GameDAO gameDAO = new GameDAO(db);
+    AuthDAO authDAO = new AuthDAO(db);
     UserDAO userDAO = new UserDAO();
     GameService gameService = new GameService(gameDAO);
     LoginService loginService = new LoginService(authDAO, userDAO);
@@ -31,9 +35,14 @@ public class ServiceTests {
     User newUser = new User("TestUserName", "Password123", "TestEmail");
 
 
-//    @BeforeAll
-//    public void setup() {
-//    }
+    @BeforeAll
+    public static void setupDB() throws DataAccessException {
+        try {
+            db = new Database();
+        } catch (DataAccessException e) {
+            throw new DataAccessException(e.getMessage());
+        }
+    }
     @BeforeEach
     public void reset() {
         adminService.clearDatabase();

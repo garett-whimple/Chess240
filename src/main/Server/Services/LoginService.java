@@ -57,7 +57,7 @@ public class LoginService {
     public MessageResponse LogoutUser(AuthToken authToken){
         MessageResponse returnResponse = null;
         try {
-            authDAO.remove(authToken.getAuthToken());
+            authDAO.remove(authToken);
             returnResponse = new MessageResponse(null, 200);
         } catch (DataAccessException e) {
             String returnMessage = "Error: " + e.getMessage();

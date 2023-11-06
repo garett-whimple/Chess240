@@ -25,7 +25,7 @@ public class HtmlHandler {
     static Database db;
     private static AuthDAO authDAO = new AuthDAO(db);
     private static UserDAO userDAO = new UserDAO();
-    private static GameDAO gameDAO = new GameDAO();
+    private static GameDAO gameDAO = new GameDAO(db);
     private static AdminService adminService = new AdminService(authDAO, userDAO, gameDAO);
     private static GameService gameService = new GameService(gameDAO);
     private static LoginService loginService = new LoginService(authDAO, userDAO);

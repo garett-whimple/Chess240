@@ -2,7 +2,7 @@ package passoffTests.DAOTests;
 
 import ChessImpl.ChessGameImpl;
 import Server.DataAccessObjects.AuthDAO;
-import Server.DataAccessObjects.DBGameDAO;
+import Server.DataAccessObjects.GameDAO;
 import Server.DataAccessObjects.DBUserDAO;
 import Server.Models.AuthToken;
 import Server.Models.Game;
@@ -22,7 +22,7 @@ public class DAOTest {
     User newUser = new User("TestUsername", "Password123", "TestEmail");
 
     static Game newGame = new Game(null, "WHTIE_USERNAME", "BLACK_USERNAME", "GAME_NAME", new ChessGameImpl());
-    DBGameDAO gameDAO = new DBGameDAO(db);
+    GameDAO gameDAO = new GameDAO(db);
     AuthDAO authDAO = new AuthDAO(db);
     DBUserDAO userDAO = new DBUserDAO(db);
     @BeforeAll

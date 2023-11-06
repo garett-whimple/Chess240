@@ -3,6 +3,7 @@ package ChessImpl;
 import chess.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 public class ChessBoardImpl implements ChessBoard {
@@ -407,5 +408,17 @@ public class ChessBoardImpl implements ChessBoard {
                 copyBoard.addPiece(currentPosition, currentPiece);
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ChessBoardImpl that)) return false;
+        return Arrays.deepEquals(board, that.board);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(board);
     }
 }

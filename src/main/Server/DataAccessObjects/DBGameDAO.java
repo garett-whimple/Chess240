@@ -1,19 +1,29 @@
 package Server.DataAccessObjects;
 
+import ChessImpl.ChessGameImpl;
 import Server.Models.Game;
-import chess.ChessGame;
+import chess.ChessPiece;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dataAccess.DataAccessException;
 import dataAccess.Database;
-
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class DBGameDAO {
     Database db;
-    public Game find(int id) throws DataAccessException {
+
+    public DBGameDAO(Database db) {
+        this.db = db;
+    }
+
+    public Game find(Integer id) throws DataAccessException {
+        if (id == null) {
+            return null; //INVALID ID
+        }
         Connection connection = db.getConnection();
         Game returnGame = null;
         try {
@@ -25,8 +35,9 @@ public class DBGameDAO {
                         String blackUsername = rs.getString("blackUserName");
                         String gameName = rs.getString("gameName");
                         String gameBoardString = rs.getString("game");
-                        Gson gson = new Gson();
-                        ChessGame gameBoard = (ChessGame)gson.fromJson(gameBoardString, ChessGame.class);
+                        var builder = new GsonBuilder();
+                        builder.registerTypeAdapter(ChessPiece.class, new PieceAdapter());
+                        var gameBoard = builder.create().fromJson(gameBoardString, ChessGameImpl.class);
                         returnGame = new Game(id,whiteUsername, blackUsername, gameName, gameBoard);
                     }
                 }
@@ -52,8 +63,9 @@ public class DBGameDAO {
                         String blackUsername = rs.getString("blackUserName");
                         String gameName = rs.getString("gameName");
                         String gameBoardString = rs.getString("game");
-                        Gson gson = new Gson();
-                        ChessGame gameBoard = (ChessGame)gson.fromJson(gameBoardString, ChessGame.class);
+                        var builder = new GsonBuilder();
+                        builder.registerTypeAdapter(ChessPiece.class, new PieceAdapter());
+                        var gameBoard = builder.create().fromJson(gameBoardString, ChessGameImpl.class);
                         returnGameArray.add(new Game(gameId,whiteUsername, blackUsername, gameName, gameBoard));
                     }
                 }
@@ -67,11 +79,14 @@ public class DBGameDAO {
         }
     }
 
-    public int insert(Game game) throws DataAccessException{
+    public Integer insert(Game game) throws DataAccessException{
         Connection connection = db.getConnection();
         Integer returnInt = null;
         try {
-            try (var preparedStatement = connection.prepareStatement("INSERT INTO Game (whiteUserName, blackUserName, gameName, game) VALUE(?, ?)" )) {
+            if (find(game.getGameId()) != null) {
+                return null; //AlREADY IN DATABASE
+            }
+            try (var preparedStatement = connection.prepareStatement("INSERT INTO Game (whiteUserName, blackUserName, gameName, game) VALUE(?, ?, ?,?)", Statement.RETURN_GENERATED_KEYS )) {
                 preparedStatement.setString(1, game.getWhiteUsername());
                 preparedStatement.setString(2, game.getBlackUsername());
                 preparedStatement.setString(3, game.getGameName());
@@ -107,9 +122,12 @@ public class DBGameDAO {
         }
     }
 
-    public void remove(int id) throws DataAccessException{
+    public void remove(Integer id) throws DataAccessException{
         Connection connection = db.getConnection();
         try {
+            if (id == null) {
+                return; //INVALID ID
+            }
             try (var preparedStatement = connection.prepareStatement("DELETE FROM Game WHERE gameId = ?" )) {
                 preparedStatement.setInt(1,id);
                 preparedStatement.executeUpdate();
@@ -125,7 +143,7 @@ public class DBGameDAO {
     public void update(Game game) throws DataAccessException{
         Connection connection = db.getConnection();
         try {
-            try (var preparedStatement = connection.prepareStatement("UPDATE Game SET whiteUserName = ?, blackUserName = ?, gameName = ?, game = ?, WHERE gameId = ?" )) {
+            try (var preparedStatement = connection.prepareStatement("UPDATE Game SET whiteUserName = ?, blackUserName = ?, gameName = ?, game = ? WHERE gameId = ?" )) {
                 preparedStatement.setString(1, game.getWhiteUsername());
                 preparedStatement.setString(2, game.getBlackUsername());
                 preparedStatement.setString(3, game.getGameName());

@@ -3,6 +3,7 @@ package ChessImpl;
 import chess.*;
 
 import java.util.Collection;
+import java.util.Objects;
 
 public class ChessPieceImpl implements ChessPiece {
     private ChessGame.TeamColor color;
@@ -50,5 +51,17 @@ public class ChessPieceImpl implements ChessPiece {
     }
     public void setValidNextMove(ChessMove move) {
         validNextMove = move;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ChessPieceImpl that)) return false;
+        return hasMoved == that.hasMoved && color == that.color && type == that.type && Objects.equals(validNextMove, that.validNextMove);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, type, hasMoved, validNextMove);
     }
 }

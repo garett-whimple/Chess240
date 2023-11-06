@@ -97,8 +97,8 @@ public class Game {
      * Returns game
      * @return game
      */
-    public ChessGame getGame() {
-        return gameBoard;
+    public ChessGameImpl getGame() {
+        return (ChessGameImpl) gameBoard;
     }
 
     public void setGameId(int gameId) {
@@ -121,7 +121,7 @@ public class Game {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Game game1)) return false;
-        return getGameId() == game1.getGameId() && Objects.equals(getWhiteUsername(), game1.getWhiteUsername()) && Objects.equals(getBlackUsername(), game1.getBlackUsername()) && Objects.equals(getGameName(), game1.getGameName()) && Objects.equals(getGame(), game1.getGame());
+        return Objects.equals(getGameId(), game1.getGameId()) && Objects.equals(getWhiteUsername(), game1.getWhiteUsername()) && Objects.equals(getBlackUsername(), game1.getBlackUsername()) && Objects.equals(getGameName(), game1.getGameName()) && Objects.equals(getGame(), game1.getGame());
     }
 
     @Override

@@ -5,9 +5,10 @@ import chess.*;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 public class ChessGameImpl implements ChessGame {
-    ChessBoard board = new ChessBoardImpl();
+    ChessBoardImpl board = new ChessBoardImpl();
     TeamColor teamTurn = TeamColor.WHITE;
     @Override
     public TeamColor getTeamTurn() {
@@ -186,7 +187,19 @@ public class ChessGameImpl implements ChessGame {
     }
 
     @Override
-    public ChessBoard getBoard() {
+    public ChessBoardImpl getBoard() {
         return board;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ChessGameImpl chessGame)) return false;
+        return Objects.equals(getBoard(), chessGame.getBoard()) && getTeamTurn() == chessGame.getTeamTurn();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBoard(), getTeamTurn());
     }
 }

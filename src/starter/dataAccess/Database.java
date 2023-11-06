@@ -32,6 +32,51 @@ public class Database {
     private static final String CONNECTION_URL = "jdbc:mysql://localhost:3306";
     private final LinkedList<Connection> connections = new LinkedList<>();
 
+    public Database() throws DataAccessException {
+        try {
+            Connection connection;
+            connection = DriverManager.getConnection(CONNECTION_URL, DB_USERNAME, DB_PASSWORD);
+            try (var createDbStatement = connection.prepareStatement("CREATE DATABASE IF NOT EXISTS chess")) {
+                createDbStatement.executeUpdate();
+            }
+            connection.setCatalog(DB_NAME);
+            var createAuthTable = """
+                CREATE TABLE IF NOT EXISTS AuthToken (
+                authToken varchar(255), 
+                username varchar(255), 
+                PRIMARY KEY (authToken));
+                    """;
+            try (var createTableStatement = connection.prepareStatement(createAuthTable)) {
+                createTableStatement.executeUpdate();
+            }
+            createAuthTable = """
+                CREATE TABLE IF NOT EXISTS Game (
+                gameId int not null AUTO_INCREMENT, 
+                whiteUserName varchar(255), 
+                blackUserName varchar(255), 
+                gameName varchar(255), 
+                game TEXT, 
+                PRIMARY KEY (gameId));
+                    """;
+            try (var createTableStatement = connection.prepareStatement(createAuthTable)) {
+                createTableStatement.executeUpdate();
+            }
+            createAuthTable = """
+                CREATE TABLE IF NOT EXISTS User (
+                username varchar(255), 
+                email varchar(255), 
+                password varchar(255), 
+                PRIMARY KEY (username));
+                    """;
+            try (var createTableStatement = connection.prepareStatement(createAuthTable)) {
+                createTableStatement.executeUpdate();
+            }
+            returnConnection(connection);
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
+    }
+
     /**
      * Get a connection to the database. This pulls a connection out of a simple
      * pool implementation. The connection must be returned to the pool after

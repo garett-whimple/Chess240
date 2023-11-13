@@ -34,7 +34,7 @@ public class ChessPieceImpl implements ChessPiece {
     }
 
     public boolean hasMoved() {
-        return hasMoved;
+        return !hasMoved;
     }
 
     public void setMoved(boolean hasMoved) {
@@ -43,7 +43,8 @@ public class ChessPieceImpl implements ChessPiece {
 
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        Collection<ChessMove> returnArray = board.validMoves(myPosition);
+        ChessBoardImpl board1 = (ChessBoardImpl) board;
+        Collection<ChessMove> returnArray = board1.validMoves(myPosition);
         if (validNextMove != null) {
             returnArray.add(validNextMove);
         }

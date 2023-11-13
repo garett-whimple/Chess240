@@ -2,10 +2,10 @@ package Server.Services;
 
 import Server.DataAccessObjects.AuthDAO;
 import Server.DataAccessObjects.UserDAO;
-import Server.Models.AuthToken;
-import Server.Services.Responses.AuthTokenResponse;
-import Server.Services.Responses.MessageResponse;
-import Server.Models.User;
+import Models.AuthToken;
+import Responses.AuthTokenResponse;
+import Responses.MessageResponse;
+import Models.User;
 import dataAccess.DataAccessException;
 
 import java.util.Objects;

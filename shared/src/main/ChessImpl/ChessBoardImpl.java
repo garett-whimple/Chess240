@@ -371,13 +371,13 @@ public class ChessBoardImpl implements ChessBoard {
             }
         }
 
-        if (((!currentPiece.hasMoved()) && startPosition.getColumn() == 5 && startPosition.getRow() == 8 && currentColor == ChessGame.TeamColor.BLACK) ||((!currentPiece.hasMoved()) && startPosition.getColumn() == 5 && startPosition.getRow() == 1 && currentColor == ChessGame.TeamColor.WHITE)) {
-            if (getPiece(new ChessPositionImpl(startPosition.getRow(), 8))!= null && getPiece(new ChessPositionImpl(startPosition.getRow(), 8)).getPieceType() == ChessPiece.PieceType.ROOK && getPiece(new ChessPositionImpl(startPosition.getRow(), 8)).getTeamColor() == currentColor && (!getPiece(new ChessPositionImpl(startPosition.getRow(), 8)).hasMoved())) {
+        if (((currentPiece.hasMoved()) && startPosition.getColumn() == 5 && startPosition.getRow() == 8 && currentColor == ChessGame.TeamColor.BLACK) ||((currentPiece.hasMoved()) && startPosition.getColumn() == 5 && startPosition.getRow() == 1 && currentColor == ChessGame.TeamColor.WHITE)) {
+            if (getPiece(new ChessPositionImpl(startPosition.getRow(), 8))!= null && getPiece(new ChessPositionImpl(startPosition.getRow(), 8)).getPieceType() == ChessPiece.PieceType.ROOK && getPiece(new ChessPositionImpl(startPosition.getRow(), 8)).getTeamColor() == currentColor && (getPiece(new ChessPositionImpl(startPosition.getRow(), 8)).hasMoved())) {
                 if (getPiece(new ChessPositionImpl(startPosition.getRow(), 7)) == null && getPiece(new ChessPositionImpl(startPosition.getRow(), 6)) == null) {
                     returnList.add(new ChessMoveImpl(startPosition, new ChessPositionImpl(startPosition.getRow(),7)));
                 }
             }
-            if (getPiece(new ChessPositionImpl(startPosition.getRow(), 1)) != null && getPiece(new ChessPositionImpl(startPosition.getRow(), 1)).getPieceType() == ChessPiece.PieceType.ROOK && getPiece(new ChessPositionImpl(startPosition.getRow(), 1)).getTeamColor() == currentColor && (!getPiece(new ChessPositionImpl(startPosition.getRow(), 1)).hasMoved())){
+            if (getPiece(new ChessPositionImpl(startPosition.getRow(), 1)) != null && getPiece(new ChessPositionImpl(startPosition.getRow(), 1)).getPieceType() == ChessPiece.PieceType.ROOK && getPiece(new ChessPositionImpl(startPosition.getRow(), 1)).getTeamColor() == currentColor && (getPiece(new ChessPositionImpl(startPosition.getRow(), 1)).hasMoved())){
                 if (getPiece(new ChessPositionImpl(startPosition.getRow(), 2)) == null && getPiece(new ChessPositionImpl(startPosition.getRow(), 3)) == null && getPiece(new ChessPositionImpl(startPosition.getRow(), 4)) == null) {
                     returnList.add(new ChessMoveImpl(startPosition, new ChessPositionImpl(startPosition.getRow(),3)));
                 }

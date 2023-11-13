@@ -3,7 +3,7 @@ package Server.Services;
 import Server.DataAccessObjects.AuthDAO;
 import Server.DataAccessObjects.GameDAO;
 import Server.DataAccessObjects.UserDAO;
-import Server.Services.Responses.MessageResponse;
+import Responses.MessageResponse;
 import dataAccess.DataAccessException;
 
 /**

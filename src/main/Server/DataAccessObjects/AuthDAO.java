@@ -1,6 +1,6 @@
 package Server.DataAccessObjects;
 
-import Server.Models.AuthToken;
+import Models.AuthToken;
 import dataAccess.DataAccessException;
 import dataAccess.Database;
 import java.sql.Connection;

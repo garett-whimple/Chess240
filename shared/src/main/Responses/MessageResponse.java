@@ -1,11 +1,11 @@
-package Server.Services.Responses;
+package Responses;
 
 import java.util.Objects;
 
 /**
- * Response Object that holds information for a Game
+ * Response Object that holds information for void responses
  */
-public class GameResponse {
+public class MessageResponse {
     /**
      * Is the error message of the response if there is one
      */
@@ -14,25 +14,19 @@ public class GameResponse {
      * Is the return Code of the response
      */
     Integer returnCode;
-    /**
-     * ID of the game
-     */
-    Integer gameID;
 
     /**
-     * Constructor to make a GameResponse Object
+     * Constructor to create a MessageResponse Object
      * @param message Is the error message of the response if there is one
      * @param returnCode Is the return Code of the response
-     * @param gameID ID of the game
      */
-    public GameResponse(String message, int returnCode, Integer gameID) {
+    public MessageResponse(String message, int returnCode) {
         this.message = message;
         this.returnCode = returnCode;
-        this.gameID = gameID;
     }
 
     /**
-     * Returns the message
+     * Returns message
      * @return message
      */
     public String getMessage() {
@@ -40,19 +34,11 @@ public class GameResponse {
     }
 
     /**
-     * Returns the returnCode
+     * Returns returnCode
      * @return returnCode
      */
     public int getReturnCode() {
         return returnCode;
-    }
-
-    /**
-     * Returns the gameID
-     * @return gameID
-     */
-    public Integer getGameID() {
-        return gameID;
     }
     public void setReturnCodeNull() {
         this.returnCode = null;
@@ -61,12 +47,12 @@ public class GameResponse {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GameResponse that)) return false;
-        return Objects.equals(getMessage(), that.getMessage()) && Objects.equals(getReturnCode(), that.getReturnCode()) && Objects.equals(getGameID(), that.getGameID());
+        if (!(o instanceof MessageResponse response)) return false;
+        return Objects.equals(getMessage(), response.getMessage()) && Objects.equals(getReturnCode(), response.getReturnCode());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getMessage(), getReturnCode(), getGameID());
+        return Objects.hash(getMessage(), getReturnCode());
     }
 }

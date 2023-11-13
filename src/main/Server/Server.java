@@ -1,7 +1,5 @@
 package Server;
 
-import Server.DataAccessObjects.AuthDAO;
-import Server.Models.AuthToken;
 import dataAccess.DataAccessException;
 import spark.Spark;
 

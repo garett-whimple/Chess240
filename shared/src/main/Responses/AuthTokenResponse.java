@@ -1,4 +1,4 @@
-package Server.Services.Responses;
+package Responses;
 
 import java.util.Objects;
 

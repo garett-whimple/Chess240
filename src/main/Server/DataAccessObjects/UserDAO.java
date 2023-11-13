@@ -1,6 +1,6 @@
 package Server.DataAccessObjects;
 
-import Server.Models.User;
+import Models.User;
 import dataAccess.DataAccessException;
 import dataAccess.Database;
 import java.sql.Connection;

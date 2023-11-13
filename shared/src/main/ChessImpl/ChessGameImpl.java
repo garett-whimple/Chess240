@@ -2,7 +2,6 @@ package ChessImpl;
 
 import chess.*;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -99,15 +98,15 @@ public class ChessGameImpl implements ChessGame {
     private void checkCastle(ChessMove currentMove, ChessPiece currentPiece) {
         ChessPiece rook = new ChessPieceImpl(currentPiece.getTeamColor(), ChessPiece.PieceType.ROOK);
         if (currentPiece.getPieceType() == ChessPiece.PieceType.KING && (currentMove.getStartPosition().getColumn() - currentMove.getEndPosition().getColumn() > 1)) {
-            ChessPosition oldRookPostion = new ChessPositionImpl(currentMove.getStartPosition().getRow(),1);
-            ChessPosition newRookPostiion = new ChessPositionImpl(currentMove.getStartPosition().getRow(),currentMove.getStartPosition().getColumn()-1);
-            board.addPiece(newRookPostiion,board.getPiece(oldRookPostion));
-            board.removePiece(oldRookPostion);
+            ChessPosition oldRookPosition = new ChessPositionImpl(currentMove.getStartPosition().getRow(),1);
+            ChessPosition newRookPosition = new ChessPositionImpl(currentMove.getStartPosition().getRow(),currentMove.getStartPosition().getColumn()-1);
+            board.addPiece(newRookPosition,board.getPiece(oldRookPosition));
+            board.removePiece(oldRookPosition);
         } else if (currentPiece.getPieceType() == ChessPiece.PieceType.KING && (currentMove.getStartPosition().getColumn() - currentMove.getEndPosition().getColumn() < -1)) {
-            ChessPosition oldRookPostion = new ChessPositionImpl(currentMove.getStartPosition().getRow(),8);
-            ChessPosition newRookPostiion = new ChessPositionImpl(currentMove.getStartPosition().getRow(),currentMove.getStartPosition().getColumn()+1);
-            board.addPiece(newRookPostiion,board.getPiece(oldRookPostion));
-            board.removePiece(oldRookPostion);
+            ChessPosition oldRookPosition = new ChessPositionImpl(currentMove.getStartPosition().getRow(),8);
+            ChessPosition newRookPosition = new ChessPositionImpl(currentMove.getStartPosition().getRow(),currentMove.getStartPosition().getColumn()+1);
+            board.addPiece(newRookPosition,board.getPiece(oldRookPosition));
+            board.removePiece(oldRookPosition);
         }
     }
 
@@ -183,7 +182,8 @@ public class ChessGameImpl implements ChessGame {
 
     @Override
     public void setBoard(ChessBoard board) {
-        board.setEqual(this.board);
+        ChessBoardImpl board1 = (ChessBoardImpl) board;
+        board1.setEqual(this.board);
     }
 
     @Override

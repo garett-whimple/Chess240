@@ -1,6 +1,5 @@
 package ChessImpl;
 
-import chess.ChessPiece;
 import chess.ChessPosition;
 
 import java.util.Objects;

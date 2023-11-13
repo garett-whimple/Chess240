@@ -1,9 +1,12 @@
 package Server.Services;
 
+import Responses.GameResponse;
+import Responses.ListGameObject;
+import Responses.ListGameResponse;
+import Responses.MessageResponse;
 import Server.DataAccessObjects.GameDAO;
-import Server.Models.Game;
-import Server.Services.Requests.JoinGameRequest;
-import Server.Services.Responses.*;
+import Models.Game;
+import Requests.JoinGameRequest;
 import chess.ChessGame;
 import dataAccess.DataAccessException;
 

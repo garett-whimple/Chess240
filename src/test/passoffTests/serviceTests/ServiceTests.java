@@ -1,17 +1,17 @@
 package passoffTests.serviceTests;
 
+import Responses.*;
 import Server.DataAccessObjects.AuthDAO;
 import Server.DataAccessObjects.GameDAO;
 import Server.DataAccessObjects.UserDAO;
-import Server.Models.AuthToken;
-import Server.Models.Game;
-import Server.Models.User;
+import Models.AuthToken;
+import Models.Game;
+import Models.User;
 import Server.Services.AdminService;
 import Server.Services.GameService;
 import Server.Services.LoginService;
 import Server.Services.RegisterService;
-import Server.Services.Requests.JoinGameRequest;
-import Server.Services.Responses.*;
+import Requests.JoinGameRequest;
 import chess.ChessGame;
 import dataAccess.DataAccessException;
 import dataAccess.Database;
@@ -21,7 +21,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class ServiceTests {
     static Database db = new Database();

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ServiceTests {
-    static Database db;
+    static Database db = new Database();
     GameDAO gameDAO = new GameDAO(db);
     AuthDAO authDAO = new AuthDAO(db);
     UserDAO userDAO = new UserDAO(db);
@@ -38,7 +38,7 @@ public class ServiceTests {
     @BeforeAll
     public static void setupDB() throws DataAccessException {
         try {
-            db = new Database();
+            db.Initialize();
         } catch (DataAccessException e) {
             throw new DataAccessException(e.getMessage());
         }
@@ -170,12 +170,9 @@ public class ServiceTests {
 
     @Test
     public void invalidListGameService() {
-        ListGameResponse expectedResponse = new ListGameResponse("Error: database not found", 500, null);
-        GameService badGameService = new GameService(new GameDAO(null));
-        //EMPTY MAP GIVEN TO SIMULATE BAD DATABASE CONNECTION
-        //ONLY DID THIS BECAUSE IT IS THE ONLY INVALID TEST I COULD DO
-        //USER IS ALREADY AUTHENTICATED EARLIER IN THE PROCESS AND NO ARGUMENTS ARE GIVEN
-        ListGameResponse response = badGameService.listGames();
+        adminService.clearDatabase();
+        ListGameResponse expectedResponse = new ListGameResponse(null, 200, new ArrayList<>());
+        ListGameResponse response = gameService.listGames();
         Assertions.assertEquals(expectedResponse, response,
                 "response does not match expected response");
     }

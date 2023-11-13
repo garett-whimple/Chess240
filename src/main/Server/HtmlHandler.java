@@ -22,7 +22,7 @@ import spark.Request;
 import spark.Response;
 
 public class HtmlHandler {
-    static Database db;
+    static Database db = new Database();
     private static AuthDAO authDAO = new AuthDAO(db);
     private static UserDAO userDAO = new UserDAO(db);
     private static GameDAO gameDAO = new GameDAO(db);
@@ -34,7 +34,7 @@ public class HtmlHandler {
 
     public HtmlHandler() throws DataAccessException {
         try {
-            db = new Database();
+            db.Initialize();
         } catch (DataAccessException e) {
             throw new DataAccessException(e.getMessage());
         }

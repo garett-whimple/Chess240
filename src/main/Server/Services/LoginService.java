@@ -57,8 +57,13 @@ public class LoginService {
     public MessageResponse LogoutUser(AuthToken authToken){
         MessageResponse returnResponse = null;
         try {
-            authDAO.remove(authToken);
-            returnResponse = new MessageResponse(null, 200);
+            AuthToken foundToken = authDAO.find(authToken.getAuthToken());
+            if (foundToken == null) {
+                returnResponse =  new MessageResponse("Error: authToken does not exist", 500);
+            } else {
+                authDAO.remove(authToken);
+                returnResponse = new MessageResponse(null, 200);
+            }
         } catch (DataAccessException e) {
             String returnMessage = "Error: " + e.getMessage();
             returnResponse =  new MessageResponse(returnMessage, 500);

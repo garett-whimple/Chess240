@@ -32,7 +32,10 @@ public class Database {
     private static final String CONNECTION_URL = "jdbc:mysql://localhost:3306";
     private final LinkedList<Connection> connections = new LinkedList<>();
 
-    public Database() throws DataAccessException {
+    public Database() {
+    }
+
+    public void Initialize() throws DataAccessException {
         try {
             Connection connection;
             connection = DriverManager.getConnection(CONNECTION_URL, DB_USERNAME, DB_PASSWORD);
@@ -108,4 +111,3 @@ public class Database {
         connections.add(connection);
     }
 }
-

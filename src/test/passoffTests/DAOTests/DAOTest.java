@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class DAOTest {
-    static Database db = null;
+    static Database db = new Database();
     AuthToken newAuth = new AuthToken("TestAuth", "TestUser");
     User newUser = new User("TestUsername", "Password123", "TestEmail");
 
@@ -25,15 +25,15 @@ public class DAOTest {
     GameDAO gameDAO = new GameDAO(db);
     AuthDAO authDAO = new AuthDAO(db);
     UserDAO userDAO = new UserDAO(db);
-    @BeforeAll
-    public static void setupDB() throws DataAccessException{
-        try {
-            db = new Database();
-            newGame.getGame().getBoard().resetBoard();
-        } catch (DataAccessException e) {
-            throw new DataAccessException(e.getMessage());
-        }
-    }
+//    @BeforeAll
+//    public static void setupDB() throws DataAccessException{
+//        try {
+//            db = new Database();
+//            newGame.getGame().getBoard().resetBoard();
+//        } catch (DataAccessException e) {
+//            throw new DataAccessException(e.getMessage());
+//        }
+//    }
     @BeforeEach
     public void reset() throws DataAccessException{
         try {

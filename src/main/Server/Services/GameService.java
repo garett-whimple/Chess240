@@ -13,7 +13,6 @@ import java.util.ArrayList;
  * Class that deals with any Game server functionality
  */
 public class GameService {
-    int currentGameID = 1;
     GameDAO gameDAO;
     /**
      * Constructor that creates a GameService Object
@@ -55,14 +54,12 @@ public class GameService {
      */
     public GameResponse createGame(Game game){
         GameResponse returnResponse = null;
-        game.setGameId(currentGameID);
         try {
             if (game.getGameName() == null) {
                 returnResponse = new GameResponse("Error: bad request", 400, null);
             } else {
-                gameDAO.insert(game);
-                returnResponse = new GameResponse(null, 200, currentGameID);
-                currentGameID++;
+                Integer id = gameDAO.insert(game);
+                returnResponse = new GameResponse(null, 200, id);
             }
         } catch (DataAccessException e) {
             String returnMessage = "Error: " + e.getMessage();

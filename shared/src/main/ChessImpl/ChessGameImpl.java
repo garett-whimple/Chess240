@@ -20,7 +20,7 @@ public class ChessGameImpl implements ChessGame {
     }
 
     public Collection<ChessMove> allValidCheckedMoves(TeamColor currentTeamColor) {
-        ChessBoard copyBoard = new ChessBoardImpl();
+        ChessBoardImpl copyBoard = new ChessBoardImpl();
         board.setEqual(copyBoard);
 
 
@@ -64,7 +64,7 @@ public class ChessGameImpl implements ChessGame {
     @Override
     public void makeMove(ChessMove move) throws InvalidMoveException {
         if (allValidCheckedMoves(getTeamTurn()).contains(move)) {
-            ChessPiece currentPiece =  board.getPiece(move.getStartPosition());
+            ChessPieceImpl currentPiece = (ChessPieceImpl) board.getPiece(move.getStartPosition());
             checkCastle(move, currentPiece);
             if (currentPiece.getPieceType() == ChessPiece.PieceType.PAWN && move.getStartPosition().getColumn() != move.getEndPosition().getColumn() && board.getPiece(move.getEndPosition()) == null) {
                 if (board.getPiece(move.getStartPosition()).getTeamColor() == TeamColor.BLACK) {
@@ -77,7 +77,7 @@ public class ChessGameImpl implements ChessGame {
             if (move.getPromotionPiece() != null) {
                 currentPiece = new ChessPieceImpl(board.getPiece(move.getStartPosition()).getTeamColor(),move.getPromotionPiece());
             } else {
-                currentPiece = board.getPiece(move.getStartPosition());
+                currentPiece = (ChessPieceImpl) board.getPiece(move.getStartPosition());
             }
             if (currentPiece.getPieceType() == ChessPiece.PieceType.PAWN) {
                 checkEnPassant(currentPiece, move);
@@ -113,7 +113,7 @@ public class ChessGameImpl implements ChessGame {
     private void clearEnPassant() {
         for (int i = 1; i < 9; i++) {
             for (int j = 1; j < 9; j++) {
-                ChessPiece currentPiece = board.getPiece(new ChessPositionImpl(i,j));
+                ChessPieceImpl currentPiece = (ChessPieceImpl) board.getPiece(new ChessPositionImpl(i,j));
                 if (currentPiece != null) {
                     currentPiece.setValidNextMove(null);
                 }
@@ -123,18 +123,18 @@ public class ChessGameImpl implements ChessGame {
 
     private void checkEnPassant(ChessPiece currentPiece, ChessMove move) {
         ChessPosition positionToCheck = null;
-        ChessPiece pieceToCheck = null;
+        ChessPieceImpl pieceToCheck = null;
         if (currentPiece.getTeamColor() == TeamColor.WHITE && move.getStartPosition().getRow() == 2 && move.getEndPosition().getRow() == 4){
             positionToCheck = new ChessPositionImpl(4, move.getEndPosition().getColumn()-1);
             if (move.getEndPosition().getColumn() > 1 && board.getPiece(positionToCheck) != null) {
-                pieceToCheck = board.getPiece(positionToCheck);
+                pieceToCheck = (ChessPieceImpl) board.getPiece(positionToCheck);
                 if (pieceToCheck.getTeamColor() == TeamColor.BLACK && pieceToCheck.getPieceType() == ChessPiece.PieceType.PAWN) {
                     pieceToCheck.setValidNextMove(new ChessMoveImpl(positionToCheck, new ChessPositionImpl(move.getEndPosition().getRow()-1,move.getEndPosition().getColumn())));
                 }
             }
             positionToCheck = new ChessPositionImpl(4, move.getEndPosition().getColumn()+1);
             if (move.getEndPosition().getColumn() < 8 && board.getPiece(positionToCheck) != null) {
-                pieceToCheck = board.getPiece(positionToCheck);
+                pieceToCheck = (ChessPieceImpl) board.getPiece(positionToCheck);
                 if (pieceToCheck.getTeamColor() == TeamColor.BLACK && pieceToCheck.getPieceType() == ChessPiece.PieceType.PAWN) {
                     pieceToCheck.setValidNextMove(new ChessMoveImpl(positionToCheck, new ChessPositionImpl(move.getEndPosition().getRow()-1,move.getEndPosition().getColumn())));
                 }
@@ -143,14 +143,14 @@ public class ChessGameImpl implements ChessGame {
         if (currentPiece.getTeamColor() == TeamColor.BLACK && move.getStartPosition().getRow() == 7 && move.getEndPosition().getRow() == 5){
             positionToCheck = new ChessPositionImpl(5, move.getEndPosition().getColumn()-1);
             if (move.getEndPosition().getColumn() > 1 && board.getPiece(positionToCheck) != null) {
-                pieceToCheck = board.getPiece(positionToCheck);
+                pieceToCheck = (ChessPieceImpl) board.getPiece(positionToCheck);
                 if (pieceToCheck.getTeamColor() == TeamColor.WHITE && pieceToCheck.getPieceType() == ChessPiece.PieceType.PAWN) {
                     pieceToCheck.setValidNextMove(new ChessMoveImpl(positionToCheck, new ChessPositionImpl(move.getEndPosition().getRow()+1,move.getEndPosition().getColumn())));
                 }
             }
             positionToCheck = new ChessPositionImpl(5, move.getEndPosition().getColumn()+1);
             if (move.getEndPosition().getColumn() < 8 && board.getPiece(positionToCheck) != null) {
-                pieceToCheck = board.getPiece(positionToCheck);
+                pieceToCheck = (ChessPieceImpl) board.getPiece(positionToCheck);
                 if (pieceToCheck.getTeamColor() == TeamColor.WHITE && pieceToCheck.getPieceType() == ChessPiece.PieceType.PAWN) {
                     pieceToCheck.setValidNextMove(new ChessMoveImpl(positionToCheck, new ChessPositionImpl(move.getEndPosition().getRow()+1,move.getEndPosition().getColumn())));
                 }

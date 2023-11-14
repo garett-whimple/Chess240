@@ -19,8 +19,8 @@ public class ChessBoardImpl implements ChessBoard {
     }
 
     @Override
-    public ChessPiece getPiece(ChessPosition position) {
-       return board[position.getRow()-1][position.getColumn()-1];
+    public ChessPieceImpl getPiece(ChessPosition position) {
+       return (ChessPieceImpl) board[position.getRow()-1][position.getColumn()-1];
     }
 
     public boolean isInCheck(ChessGame.TeamColor teamColor) {
@@ -356,7 +356,7 @@ public class ChessBoardImpl implements ChessBoard {
         int currentRow = startPosition.getRow();
         int currentColumn = startPosition.getColumn();
         ChessPosition currentEndPosition = null;
-        ChessPiece currentPiece =  getPiece(startPosition);
+        ChessPieceImpl currentPiece = (ChessPieceImpl) getPiece(startPosition);
         ChessGame.TeamColor currentColor = currentPiece.getTeamColor();
 
         for (int i = -1; i < 2; i++) {

@@ -33,6 +33,7 @@ public class ChessPieceImpl implements ChessPiece {
         return type;
     }
 
+    @Override
     public boolean hasMoved() {
         return !hasMoved;
     }

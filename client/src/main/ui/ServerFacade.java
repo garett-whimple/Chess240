@@ -1,6 +1,7 @@
 package ui;
 
 import Models.AuthToken;
+import Models.Game;
 import Models.GsonSerializer;
 import Models.User;
 import Responses.GameResponse;
@@ -18,34 +19,58 @@ public class ServerFacade {
 
 
     public AuthToken registerUser(User user) throws Exception {
-        var path = "/pet";
-        return this.makeRequest("POST", path, user, AuthToken.class);
+        var path = "/user";
+        return this.makeRequest("POST", path, user, AuthToken.class, null);
     }
 
-    public void deletePet(int id) throws Exception {
-        var path = String.format("/pet/%s", id);
-        this.makeRequest("DELETE", path, null, null);
+    public void clear(int id) throws Exception {
+        var path = "/db";
+        this.makeRequest("DELETE", path, null, null, null);
     }
 
-    public void deleteAllPets() throws Exception {
-        var path = "/pet";
-        this.makeRequest("DELETE", path, null, null);
+    public AuthToken login(User user) throws Exception {
+        var path = "/session";
+        return this.makeRequest("POST", path, user, AuthToken.class, null);
     }
 
-    public void listGames() throws Exception {
-        var path = "/pet";
-        var response = this.makeRequest("GET", path, null, null);
-        //return response.pet();
+    public void logout(AuthToken authToken) throws Exception {
+        var path = "/session";
+        this.makeRequest("DELETE", path, null, null, authToken);
     }
 
-    private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass) throws Exception {
+    //TODO FIX LISTGAME
+
+    public AuthToken listGame(AuthToken authToken) throws Exception {
+        var path = "/game";
+        return this.makeRequest("GET", path, null, AuthToken.class, authToken);
+    }
+
+    //TODO FIX LISTGAME
+
+    public Game createGame(Game game, AuthToken authToken) throws Exception {
+        var path = "/game";
+        return this.makeRequest("POST", path, game, Game.class, null);
+    }
+
+    public void joinGame(Game game, AuthToken authToken) throws Exception {
+        var path = "/game";
+        this.makeRequest("PUT", path, game, null, authToken);
+    }
+
+    private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass, AuthToken authToken) throws Exception {
         try {
             URL url = (new URI(serverUrl + path)).toURL();
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             http.setRequestMethod(method);
             http.setDoOutput(true);
 
+            if (authToken !=null) {
+                http.setRequestProperty("Content-Type", "application/json");
+                http.setRequestProperty("Authorization", "Bearer YOUR_TOKEN_HERE");
+            }
+
             insertBody(request, http);
+
             http.connect();
             //throwIfNotSuccessful(http);
             if (http.getResponseCode() != 200) {

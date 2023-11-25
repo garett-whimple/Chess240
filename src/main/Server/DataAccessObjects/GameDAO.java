@@ -2,6 +2,7 @@ package Server.DataAccessObjects;
 
 import ChessImpl.ChessGameImpl;
 import Models.Game;
+import Models.PieceAdapter;
 import chess.ChessPiece;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

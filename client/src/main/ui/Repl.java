@@ -1,10 +1,14 @@
 package ui;
 
+import Models.AuthToken;
+import Models.User;
+
 import java.util.Scanner;
 import java.util.Arrays;
 
 public class Repl {
     Status status = null;
+    AuthToken authToken = null;
 
     private String serverUrl = null;
     public Repl(String serverUrl) {
@@ -13,18 +17,17 @@ public class Repl {
 
     enum Status {
         BASIC,
-        SIGNED_OUT,
-        SIGNED_IN
+        LOGGED_OUT,
+        LOGGED_IN
     }
 
     public void run() {
-        status = Status.SIGNED_OUT; //Keeps track of the status of the user to know what prompts to print out
+        status = Status.LOGGED_OUT; //Keeps track of the status of the user to know what prompts to print out
         String response = "";
         System.out.println("\uD83D\uDC36 CHESS");
 
         Scanner scanner = new Scanner(System.in);
         while (!response.equals("quit")) {
-            System.out.println(printMenu(status));
 
             String line = scanner.nextLine();
 
@@ -34,9 +37,9 @@ public class Repl {
         System.out.println();
     }
 
-    private String printMenu(Status status) {
+    private String help(Status status) {
         return switch (status) {
-            case SIGNED_OUT -> """
+            case LOGGED_OUT -> """
                     Return This String.
                     """;
             default -> """
@@ -52,13 +55,8 @@ public class Repl {
             var params = Arrays.copyOfRange(tokens, 1, tokens.length);
             return switch (cmd) {
                 case "signin" -> signIn(params);
-                case "rescue" -> rescuePet(params);
-                case "list" -> listPets();
-                case "signout" -> signOut();
-                case "adopt" -> adoptPet(params);
-                case "adoptall" -> adoptAllPets();
                 case "quit" -> "quit";
-                default -> help();
+                default -> help(status);
             };
         } catch (Throwable e) {
             return e.getMessage();
@@ -67,12 +65,17 @@ public class Repl {
 
     public String signIn(String... params) throws Exception {
         if (params.length == 2) {
-            status = Status.SIGNED_IN;
+            status = Status.LOGGED_IN;
             String username = params[1];
             String password = params[0];
-            ws = new WebSocketFacade(serverUrl, notificationHandler);
-            ws.enterPetShop(visitorName);
-            return String.format("You signed in as %s.", visitorName);
+            User user = new User(username, password, null);
+            ServerFacade sf = new ServerFacade(serverUrl);
+            try {
+                authToken = sf.login(user);
+            } catch (Throwable e) {
+                throw new Exception("Unexpected error please try again later");
+            }
+            return String.format("You signed in as %s.", username);
         }
         throw new Exception("Expected: <username> <password>");
     }

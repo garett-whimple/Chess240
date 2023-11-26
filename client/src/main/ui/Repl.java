@@ -1,5 +1,7 @@
 package ui;
 
+import ChessImpl.ChessBoardImpl;
+import ChessImpl.ChessPositionImpl;
 import Models.AuthToken;
 import Models.Game;
 import Models.User;
@@ -7,9 +9,14 @@ import Requests.JoinGameRequest;
 import Responses.GameResponse;
 import Responses.ListGameObject;
 import Responses.ListGameResponse;
+import chess.ChessBoard;
 import chess.ChessGame;
+import chess.ChessPiece;
+import chess.ChessPosition;
 
 import java.util.*;
+
+import static ui.EscapeSequences.*;
 
 public class Repl {
     Status status = null;
@@ -29,6 +36,11 @@ public class Repl {
     }
 
     public void run() {
+        ChessBoard board = new ChessBoardImpl();
+        board.resetBoard();
+        System.out.println(printBoard(board, ChessGame.TeamColor.BLACK));
+        System.out.println(printBoard(board, ChessGame.TeamColor.WHITE));
+
         status = Status.LOGGED_OUT; //Keeps track of the status of the user to know what prompts to print out
         String response = "";
         System.out.println("Welcome to CHESS enter help to start");
@@ -42,6 +54,86 @@ public class Repl {
             System.out.print(response);
         }
         System.out.println();
+    }
+
+    private String printBoard(ChessBoard board, ChessGame.TeamColor color) {
+        StringBuilder sb = new StringBuilder();
+        ArrayList<String> stringArray = new ArrayList<>();
+        sb.append(RESET_BG_COLOR);
+        addStringToList(stringArray, sb);
+        sb.append(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_BLACK + "   ");
+        addStringToList(stringArray, sb);
+        for (int i = 0; i < 8; i++) {
+            sb.append(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_BLACK + " " + (char)('a'+i) + " ");
+            addStringToList(stringArray, sb);
+        }
+        sb.append(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_BLACK + "   ");
+        addStringToList(stringArray, sb);
+        sb.append(RESET_BG_COLOR + "\n");
+        addStringToList(stringArray, sb);
+        for (int i = 1; i < 9; i++) {
+            sb.append(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_BLACK + " " + (9-i) + " ");
+            addStringToList(stringArray, sb);
+            for (int j = 1; j < 9; j++) {
+                ChessPosition currentPosition = new ChessPositionImpl(i, j);
+                ChessPiece currentPiece = board.getPiece(currentPosition);
+                if ((i + j)%2 == 0) {
+                    sb.append(SET_BG_COLOR_WHITE);
+                } else {
+                    sb.append(SET_BG_COLOR_BLACK);
+                }
+                if (currentPiece != null) {
+                    if (currentPiece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+                        sb.append(SET_TEXT_COLOR_BLUE + SET_TEXT_BOLD);
+                    } else {
+                        sb.append(SET_TEXT_COLOR_RED + SET_TEXT_BOLD);
+                    }
+                    sb.append(" " + getChessPieceLetter(currentPiece) + " ");
+                    addStringToList(stringArray, sb);
+                } else {
+                    sb.append("   ");
+                    addStringToList(stringArray, sb);
+                }
+            }
+            sb.append(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_BLACK + " " + (9-i) + " ");
+            addStringToList(stringArray, sb);
+            sb.append(RESET_BG_COLOR + "\n");
+            addStringToList(stringArray, sb);
+        }
+        sb.append(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_BLACK + "   ");
+        addStringToList(stringArray, sb);
+        for (int i = 0; i < 8; i++) {
+            sb.append(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_BLACK + " " + (char)('a'+i) + " ");
+            addStringToList(stringArray, sb);
+        }
+        sb.append(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_BLACK + "   ");
+        addStringToList(stringArray, sb);
+        sb.append(RESET_BG_COLOR + "\n");
+        addStringToList(stringArray, sb);
+        if (color == ChessGame.TeamColor.BLACK) {
+            Collections.reverse(stringArray);
+        }
+        for (String item: stringArray) {
+            sb.append(item);
+        }
+        return sb.toString();
+    }
+
+    private void addStringToList(ArrayList<String> stringArray, StringBuilder sb) {
+        stringArray.add(sb.toString());
+        sb.delete(0,sb.length());
+    }
+
+    private char getChessPieceLetter(ChessPiece piece) {
+        return switch (piece.getPieceType()) {
+            case KING -> 'K';
+            case KNIGHT -> 'N';
+            case ROOK -> 'R';
+            case BISHOP -> 'B';
+            case QUEEN -> 'Q';
+            case PAWN -> 'P';
+            default -> ' ';
+        };
     }
 
     private String help(Status status) {

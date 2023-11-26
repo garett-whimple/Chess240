@@ -36,14 +36,10 @@ public class Repl {
     }
 
     public void run() {
-        ChessBoard board = new ChessBoardImpl();
-        board.resetBoard();
-        System.out.println(printBoard(board, ChessGame.TeamColor.BLACK));
-        System.out.println(printBoard(board, ChessGame.TeamColor.WHITE));
-
         status = Status.LOGGED_OUT; //Keeps track of the status of the user to know what prompts to print out
         String response = "";
-        System.out.println("Welcome to CHESS enter help to start");
+        System.out.println(RESET_BG_COLOR + SET_TEXT_COLOR_WHITE + "Welcome to CHESS enter help to start");
+
 
         Scanner scanner = new Scanner(System.in);
         while (!response.equals("quit")) {
@@ -59,7 +55,7 @@ public class Repl {
     private String printBoard(ChessBoard board, ChessGame.TeamColor color) {
         StringBuilder sb = new StringBuilder();
         ArrayList<String> stringArray = new ArrayList<>();
-        sb.append(RESET_BG_COLOR);
+        sb.append(RESET_BG_COLOR + SET_TEXT_COLOR_WHITE);
         addStringToList(stringArray, sb);
         sb.append(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_BLACK + "   ");
         addStringToList(stringArray, sb);
@@ -108,7 +104,7 @@ public class Repl {
         }
         sb.append(SET_BG_COLOR_LIGHT_GREY + SET_TEXT_COLOR_BLACK + "   ");
         addStringToList(stringArray, sb);
-        sb.append(RESET_BG_COLOR + "\n");
+        sb.append(RESET_BG_COLOR + SET_TEXT_COLOR_WHITE + "\n");
         addStringToList(stringArray, sb);
         if (color == ChessGame.TeamColor.BLACK) {
             Collections.reverse(stringArray);
@@ -173,6 +169,7 @@ public class Repl {
                 case "create" -> create(params);
                 case "list" -> list();
                 case "join" -> join(params);
+                case "observe" -> observe(params);
                 case "clear" -> clear();
                 case "quit" -> "quit";
                 default -> help(status);
@@ -247,6 +244,8 @@ public class Repl {
         throw new Exception("Expected: <NAME>\n");
     }
 
+    //TODO FIX the Join function so that it randomly chooses a valid color
+
     public String join(String... params) throws Exception {
         GameResponse returnGame = null;
         Integer id = null;
@@ -275,7 +274,13 @@ public class Repl {
                 throw new Exception("Unexpected error please try again later\n");
             }
             status = Status.LOGGED_IN;
-            return String.format("You joined game %s as %s.\n", id, color);
+            StringBuilder sb = new StringBuilder();
+            sb.append(String.format("You joined game %s as %s.\n", id, color));
+            ChessBoard board = new ChessBoardImpl();
+            board.resetBoard();
+            sb.append(printBoard(board, ChessGame.TeamColor.WHITE));
+            sb.append(printBoard(board, ChessGame.TeamColor.BLACK));
+            return sb.toString();
         }
         throw new Exception("Expected: <ID>\n");
     }
@@ -291,7 +296,13 @@ public class Repl {
                 throw new Exception("Unexpected error please try again later\n");
             }
             status = Status.LOGGED_IN;
-            return String.format("You are observing game %s\n", id);
+            StringBuilder sb = new StringBuilder();
+            sb.append(String.format("You are observing game %s\n", id));
+            ChessBoard board = new ChessBoardImpl();
+            board.resetBoard();
+            sb.append(printBoard(board, ChessGame.TeamColor.WHITE));
+            sb.append(printBoard(board, ChessGame.TeamColor.BLACK));
+            return sb.toString();
         }
         throw new Exception("Expected: <ID>\n");
     }

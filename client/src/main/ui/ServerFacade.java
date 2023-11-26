@@ -4,7 +4,9 @@ import Models.AuthToken;
 import Models.Game;
 import Models.GsonSerializer;
 import Models.User;
+import Requests.JoinGameRequest;
 import Responses.GameResponse;
+import Responses.ListGameResponse;
 import com.google.gson.Gson;
 import java.io.*;
 import java.net.*;
@@ -23,7 +25,7 @@ public class ServerFacade {
         return this.makeRequest("POST", path, user, AuthToken.class, null);
     }
 
-    public void clear(int id) throws Exception {
+    public void clear() throws Exception {
         var path = "/db";
         this.makeRequest("DELETE", path, null, null, null);
     }
@@ -38,21 +40,17 @@ public class ServerFacade {
         this.makeRequest("DELETE", path, null, null, authToken);
     }
 
-    //TODO FIX LISTGAME
-
-    public AuthToken listGame(AuthToken authToken) throws Exception {
+    public ListGameResponse listGame(AuthToken authToken) throws Exception {
         var path = "/game";
-        return this.makeRequest("GET", path, null, AuthToken.class, authToken);
+        return this.makeRequest("GET", path, null, ListGameResponse.class, authToken);
     }
 
-    //TODO FIX LISTGAME
-
-    public Game createGame(Game game, AuthToken authToken) throws Exception {
+    public GameResponse createGame(Game game, AuthToken authToken) throws Exception {
         var path = "/game";
-        return this.makeRequest("POST", path, game, Game.class, null);
+        return this.makeRequest("POST", path, game, GameResponse.class, authToken);
     }
 
-    public void joinGame(Game game, AuthToken authToken) throws Exception {
+    public void joinGame(JoinGameRequest game, AuthToken authToken) throws Exception {
         var path = "/game";
         this.makeRequest("PUT", path, game, null, authToken);
     }
@@ -66,7 +64,7 @@ public class ServerFacade {
 
             if (authToken !=null) {
                 http.setRequestProperty("Content-Type", "application/json");
-                http.setRequestProperty("Authorization", "Bearer YOUR_TOKEN_HERE");
+                http.setRequestProperty("Authorization", authToken.getAuthToken());
             }
 
             insertBody(request, http);

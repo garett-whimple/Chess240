@@ -30,7 +30,6 @@ public class Repl {
     }
 
     enum Status {
-        BASIC,
         LOGGED_OUT,
         LOGGED_IN
     }
@@ -180,6 +179,9 @@ public class Repl {
     }
 
     public String login(String... params) throws Exception {
+        if (status != Status.LOGGED_OUT) {
+            throw new Exception("You must be logged out to access that function");
+        }
         if (params.length == 2) {
             String username = params[0];
             String password = params[1];
@@ -198,6 +200,9 @@ public class Repl {
     }
 
     public String logout() throws Exception {
+        if (status != Status.LOGGED_IN) {
+            throw new Exception("You must be logged in to access that function");
+        }
         ServerFacade sf = new ServerFacade(serverUrl);
         try {
             sf.logout(authToken);
@@ -209,6 +214,9 @@ public class Repl {
     }
 
     public String register(String... params) throws Exception {
+        if (status != Status.LOGGED_OUT) {
+            throw new Exception("You must be logged out to access that function");
+        }
         if (params.length == 3) {
             String username = params[0];
             String password = params[1];
@@ -228,6 +236,9 @@ public class Repl {
     }
 
     public String create(String... params) throws Exception {
+        if (status != Status.LOGGED_IN) {
+            throw new Exception("You must be logged in to access that function");
+        }
         GameResponse returnGame = null;
         if (params.length == 1) {
             String name = params[0];
@@ -247,6 +258,9 @@ public class Repl {
     //TODO FIX the Join function so that it randomly chooses a valid color
 
     public String join(String... params) throws Exception {
+        if (status != Status.LOGGED_IN) {
+            throw new Exception("You must be logged in to access that function");
+        }
         GameResponse returnGame = null;
         Integer id = null;
         ChessGame.TeamColor color = ChessGame.TeamColor.WHITE;
@@ -286,6 +300,9 @@ public class Repl {
     }
 
     public String observe(String... params) throws Exception {
+        if (status != Status.LOGGED_IN) {
+            throw new Exception("You must be logged in to access that function");
+        }
         if (params.length == 1) {
             Integer id = Integer.parseInt(params[0]);
             JoinGameRequest joinGameRequest = new JoinGameRequest(id,username, null);
@@ -308,6 +325,9 @@ public class Repl {
     }
 
     public String list() throws Exception {
+        if (status != Status.LOGGED_IN) {
+            throw new Exception("You must be logged in to access that function");
+        }
         ListGameResponse returnList = null;
         currentGameList.clear();
         ServerFacade sf = new ServerFacade(serverUrl);

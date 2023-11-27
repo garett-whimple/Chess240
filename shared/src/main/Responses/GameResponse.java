@@ -25,7 +25,7 @@ public class GameResponse {
      * @param returnCode Is the return Code of the response
      * @param gameID ID of the game
      */
-    public GameResponse(String message, int returnCode, Integer gameID) {
+    public GameResponse(String message, Integer returnCode, Integer gameID) {
         this.message = message;
         this.returnCode = returnCode;
         this.gameID = gameID;

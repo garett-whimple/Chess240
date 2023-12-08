@@ -274,11 +274,19 @@ public class Repl {
                     color = ChessGame.TeamColor.BLACK;
                 }
             } else {
+                ArrayList<ChessGame.TeamColor> validColorArray = new ArrayList<>();
                 Random random = new Random();
-                int index = random.nextInt(2);
-                if (index == 0) {
-                    color = ChessGame.TeamColor.BLACK;
+                if (currentGameList.get(id).getBlackUsername() == null) {
+                    validColorArray.add(ChessGame.TeamColor.BLACK);
                 }
+                if (currentGameList.get(id).getWhiteUsername() == null) {
+                    validColorArray.add(ChessGame.TeamColor.WHITE);
+                }
+                if (validColorArray.isEmpty()) {
+                    throw new Exception("No available spots open on this game");
+                }
+                int index = random.nextInt(validColorArray.size());
+                color = validColorArray.get(index);
             }
             JoinGameRequest joinGameRequest = new JoinGameRequest(id,username, color);
             ServerFacade sf = new ServerFacade(serverUrl);

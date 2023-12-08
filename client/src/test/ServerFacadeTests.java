@@ -13,8 +13,7 @@ import ui.ServerFacade;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ServerFacadeTests {
     String url = "http://localhost:4567";
@@ -48,6 +47,7 @@ public class ServerFacadeTests {
         assertDoesNotThrow(() -> sf.registerUser(newUser));
         try {
             sf.registerUser(newUser);
+            fail();
         } catch (Throwable e) {
             assertEquals(expectedResponse, e.getMessage());
         }
@@ -61,6 +61,7 @@ public class ServerFacadeTests {
         assertDoesNotThrow(()-> sf.clear());
         try {
             ListGameResponse response = sf.listGame(authToken);
+            fail();
         } catch (Throwable e) {
             assertEquals(expectedResponse, e.getMessage());
         }
@@ -83,6 +84,7 @@ public class ServerFacadeTests {
         assertDoesNotThrow(() -> sf.registerUser(newUser));
         try {
             sf.login(new User("TestUserName", "Wrong_Password", null));
+            fail();
         } catch (Throwable e) {
             assertEquals(expectedResponse, e.getMessage());
         }
@@ -100,6 +102,7 @@ public class ServerFacadeTests {
         assertDoesNotThrow(() -> sf.registerUser(newUser));
         try {
             sf.logout(badAuthToken);
+            fail();
         } catch (Throwable e) {
             assertEquals(expectedResponse, e.getMessage());
         }
@@ -118,6 +121,7 @@ public class ServerFacadeTests {
         String expectedResponse = "Failure: 401";
         try {
             sf.createGame(newGame, badAuthToken);
+            fail();
         } catch (Throwable e) {
             assertEquals(expectedResponse, e.getMessage());
         }
@@ -139,6 +143,7 @@ public class ServerFacadeTests {
         String expectedResponse = "Failure: 401";
         try {
             sf.listGame(badAuthToken);
+            fail();
         } catch (Throwable e) {
             assertEquals(expectedResponse, e.getMessage());
         }
@@ -161,6 +166,7 @@ public class ServerFacadeTests {
         String expectedResponse = "Failure: 401";
         try {
             sf.joinGame(joinGameRequest, badAuthToken);
+            fail();
         } catch (Throwable e) {
             assertEquals(expectedResponse, e.getMessage());
         }

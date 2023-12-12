@@ -1,6 +1,7 @@
 package ui;
 
 import ChessImpl.ChessBoardImpl;
+import ChessImpl.ChessMoveImpl;
 import ChessImpl.ChessPositionImpl;
 import Models.AuthToken;
 import Models.Game;
@@ -13,6 +14,7 @@ import chess.ChessBoard;
 import chess.ChessGame;
 import chess.ChessPiece;
 import chess.ChessPosition;
+import webSocketMessages.userCommands.UserGameCommand;
 
 import java.util.*;
 
@@ -22,6 +24,10 @@ public class Repl {
     Status status = null;
     AuthToken authToken = null;
     String username = null;
+
+    Integer gameId = null;
+
+    WSClient wsClient = null;
     Map<Integer, ListGameObject> currentGameList = new HashMap<>();
 
     private String serverUrl = null;
@@ -31,7 +37,9 @@ public class Repl {
 
     enum Status {
         LOGGED_OUT,
-        LOGGED_IN
+        LOGGED_IN,
+        IN_GAME,
+        OBSERVING
     }
 
     public void run() {
@@ -51,7 +59,7 @@ public class Repl {
         System.out.println();
     }
 
-    private String printBoard(ChessBoard board, ChessGame.TeamColor color) {
+    public String printBoard(ChessBoard board, ChessGame.TeamColor color) {
         StringBuilder sb = new StringBuilder();
         ArrayList<String> stringArray = new ArrayList<>();
         sb.append(RESET_BG_COLOR + SET_TEXT_COLOR_WHITE);
@@ -152,6 +160,23 @@ public class Repl {
                 help - with possible commands
                             """
                     , status);
+            case IN_GAME -> String.format("""
+                [%s] >>>
+                redraw - board
+                highlight <Position> - valid moves a your piece
+                move <Start Position> <End Position> [PIECE TYPE] - a piece
+                leave - game
+                resign - game
+                help - with possible commands
+                            """
+                    , status);
+            case OBSERVING -> String.format("""
+                [%s] >>>
+                redraw - board
+                leave - game
+                help - with possible commands
+                            """
+                    , status);
             default -> "No status assigned";
         };
     }
@@ -170,12 +195,117 @@ public class Repl {
                 case "join" -> join(params);
                 case "observe" -> observe(params);
                 case "clear" -> clear();
+                case "redraw" -> redraw();
+                case "highlight" -> highlight(params);
+                case "move" -> move(params);
+                case "leave" -> leave();
+                case "resign" -> resign();
                 case "quit" -> "quit";
                 default -> help(status);
             };
         } catch (Throwable e) {
             return e.getMessage();
         }
+    }
+
+    public String redraw() throws Exception {
+        if (status != Status.IN_GAME && status != Status.OBSERVING) {
+            throw new Exception("You must be playing a game to access that function");
+        }
+        UserGameCommand newCommand = new UserGameCommand(authToken.getAuthToken());
+        newCommand.setGameID(gameId);
+        newCommand.setCommandType(UserGameCommand.CommandType.REDRAW);
+        wsClient.send(newCommand);
+        return "Redrawing: ";
+    }
+
+    public String highlight(String... params) throws Exception {
+        if (status != Status.IN_GAME) {
+            throw new Exception("You must be playing a game to access that function");
+        }
+        if (params.length == 1) {
+            String positionString = params[0];
+            ChessPositionImpl position = parseChessMove(positionString);
+            UserGameCommand newCommand = new UserGameCommand(authToken.getAuthToken());
+            newCommand.setGameID(gameId);
+            newCommand.setHighlightPosition(position);
+            newCommand.setCommandType(UserGameCommand.CommandType.REDRAW);
+            wsClient.send(newCommand);
+            return "IN HIGHLIGHT";
+        }
+        throw new Exception("Expected: <POSITION>\n");
+    }
+
+    public String move(String... params) throws Exception {
+        if (status != Status.IN_GAME) {
+            throw new Exception("You must be playing a game to access that function");
+        }
+        ChessPiece.PieceType promotionType = null;
+        if (params.length == 2 || params.length == 3) {
+            if (params.length == 3) {
+                String promotionPiece = params[2];
+                promotionType = switch (promotionPiece) {
+                    case "Q" -> ChessPiece.PieceType.QUEEN;
+                    case "B" -> ChessPiece.PieceType.BISHOP;
+                    case "K" -> ChessPiece.PieceType.KNIGHT;
+                    case "R" -> ChessPiece.PieceType.ROOK;
+                    default -> throw new Exception("INVALID PROMOTION PIECE");
+                };
+            }
+            String startingPositionString = params[0];
+            String endingPositionString = params[1];
+            ChessPositionImpl startingPosition = parseChessMove(startingPositionString);
+            ChessPositionImpl endingPosition = parseChessMove(endingPositionString);
+            UserGameCommand newCommand = new UserGameCommand(authToken.getAuthToken());
+            newCommand.setGameID(gameId);
+            newCommand.setCommandType(UserGameCommand.CommandType.MAKE_MOVE);
+            ChessMoveImpl move = new ChessMoveImpl(startingPosition, endingPosition, promotionType);
+            newCommand.setMove(move);
+            wsClient.send(newCommand);
+            return "IN MOVE: ";
+        }
+        throw new Exception("Expected: <Starting Position> <Ending Position>\n");
+    }
+
+    public ChessPositionImpl parseChessMove(String string) throws Exception {
+        if (string.length() != 2) {
+            throw new Exception("Expected: <Starting Position> <Ending Position>");
+        }
+        char colChar = string.charAt(0);
+        char rowChar = string.charAt(1);
+
+        int col = colChar - 'a' + 1;
+        int row = Character.getNumericValue(rowChar);
+
+        if (col < 1 || col > 8 || row < 1 || row > 8) {
+            throw new Exception("Starting or Ending row is not in the valid range");
+        }
+        ChessPositionImpl position = new ChessPositionImpl(row, col);
+        return position;
+    }
+
+    public String leave() throws Exception {
+        if (status != Status.IN_GAME && status != Status.OBSERVING) {
+            throw new Exception("You must be playing a game to access that function");
+        }
+        UserGameCommand newCommand = new UserGameCommand(authToken.getAuthToken());
+        newCommand.setGameID(gameId);
+        newCommand.setCommandType(UserGameCommand.CommandType.LEAVE);
+        wsClient.send(newCommand);
+        status = Status.LOGGED_IN;
+        return "IN LEAVE\n";
+    }
+
+    public String resign() throws Exception {
+        if (status != Status.IN_GAME) {
+            throw new Exception("You must be playing a game to access that function");
+        }
+        UserGameCommand newCommand = new UserGameCommand(authToken.getAuthToken());
+        newCommand.setGameID(gameId);
+        newCommand.setCommandType(UserGameCommand.CommandType.RESIGN);
+        wsClient.send(newCommand);
+        status = Status.LOGGED_IN;
+        return "IN RESIGN";
     }
 
     public String login(String... params) throws Exception {
@@ -255,8 +385,6 @@ public class Repl {
         throw new Exception("Expected: <NAME>\n");
     }
 
-    //TODO FIX the Join function so that it randomly chooses a valid color
-
     public String join(String... params) throws Exception {
         if (status != Status.LOGGED_IN) {
             throw new Exception("You must be logged in to access that function");
@@ -268,7 +396,7 @@ public class Repl {
             id = Integer.parseInt(params[0]);
             if (params.length == 2) {
                 String colorToBe = params[1];
-                if (colorToBe == "WHITE") {
+                if (Objects.equals(colorToBe, "white")) {
                     color = ChessGame.TeamColor.WHITE;
                 } else {
                     color = ChessGame.TeamColor.BLACK;
@@ -291,17 +419,20 @@ public class Repl {
             JoinGameRequest joinGameRequest = new JoinGameRequest(id,username, color);
             ServerFacade sf = new ServerFacade(serverUrl);
             try {
-                 sf.joinGame(joinGameRequest, authToken);
+                sf.joinGame(joinGameRequest, authToken);
+                wsClient = new WSClient(username);
+                UserGameCommand command = new UserGameCommand(authToken.getAuthToken());
+                command.setCommandType(UserGameCommand.CommandType.JOIN_PLAYER);
+                command.setGameID(id);
+                command.setColor(color);
+                wsClient.send(command);
             } catch (Throwable e) {
                 throw new Exception("Unexpected error please try again later\n");
             }
-            status = Status.LOGGED_IN;
             StringBuilder sb = new StringBuilder();
             sb.append(String.format("You joined game %s as %s.\n", id, color));
-            ChessBoard board = new ChessBoardImpl();
-            board.resetBoard();
-            sb.append(printBoard(board, ChessGame.TeamColor.WHITE));
-            sb.append(printBoard(board, ChessGame.TeamColor.BLACK));
+            status = Status.IN_GAME;
+            gameId = id;
             return sb.toString();
         }
         throw new Exception("Expected: <ID>\n");
@@ -320,13 +451,15 @@ public class Repl {
             } catch (Throwable e) {
                 throw new Exception("Unexpected error please try again later\n");
             }
-            status = Status.LOGGED_IN;
             StringBuilder sb = new StringBuilder();
             sb.append(String.format("You are observing game %s\n", id));
-            ChessBoard board = new ChessBoardImpl();
-            board.resetBoard();
-            sb.append(printBoard(board, ChessGame.TeamColor.WHITE));
-            sb.append(printBoard(board, ChessGame.TeamColor.BLACK));
+            wsClient = new WSClient(username);
+            UserGameCommand command = new UserGameCommand(authToken.getAuthToken());
+            command.setCommandType(UserGameCommand.CommandType.JOIN_OBSERVER);
+            command.setGameID(id);
+            wsClient.send(command);
+            status = Status.OBSERVING;
+            gameId = id;
             return sb.toString();
         }
         throw new Exception("Expected: <ID>\n");

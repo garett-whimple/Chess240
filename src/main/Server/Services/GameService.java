@@ -1,5 +1,6 @@
 package Server.Services;
 
+import ChessImpl.ChessGameImpl;
 import Responses.GameResponse;
 import Responses.ListGameObject;
 import Responses.ListGameResponse;
@@ -61,6 +62,9 @@ public class GameService {
             if (game.getGameName() == null) {
                 returnResponse = new GameResponse("Error: bad request", 400, null);
             } else {
+                ChessGameImpl newGame = new ChessGameImpl();
+                newGame.getBoard().resetBoard();
+                game.setGameBoard(newGame);
                 Integer id = gameDAO.insert(game);
                 returnResponse = new GameResponse(null, 200, id);
             }

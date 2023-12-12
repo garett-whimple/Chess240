@@ -1,13 +1,20 @@
 package Server;
 
+import Models.User;
+import com.google.gson.Gson;
 import dataAccess.DataAccessException;
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.annotations.*;
 import spark.Spark;
+import webSocketMessages.userCommands.UserGameCommand;
 
 import static spark.Spark.before;
 import static spark.Spark.halt;
 
+@WebSocket
 public class Server {
     private static HtmlHandler instance;
+    public static final WSHandler wsHandler = new WSHandler();
 
     public static HtmlHandler getInstance() throws DataAccessException {
         if (instance == null) {
@@ -15,6 +22,7 @@ public class Server {
         }
         return instance;
     }
+
     public static void main(String[] args) {
         try {
             int port = Integer.parseInt(args[0]);
@@ -31,7 +39,9 @@ public class Server {
         }
     }
 
+
     private static void createRoutes() {
+        Spark.webSocket("/connect", wsHandler);
         Spark.delete("/db", (req, res) -> getInstance().clearHandler(req, res));
         Spark.post("/user", (req, res) -> getInstance().registerUserHandler(req, res));
         Spark.post("/session", (req, res) -> getInstance().loginHandler(req, res));

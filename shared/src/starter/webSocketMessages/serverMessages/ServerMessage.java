@@ -1,5 +1,10 @@
 package webSocketMessages.serverMessages;
 
+import ChessImpl.ChessBoardImpl;
+import ChessImpl.ChessGameImpl;
+import ChessImpl.ChessPositionImpl;
+import Models.Game;
+
 import java.util.Objects;
 
 /**
@@ -11,10 +16,50 @@ import java.util.Objects;
 public class ServerMessage {
     ServerMessageType serverMessageType;
 
+    String message;
+
+    String errorMessage;
+
+    Game game;
+
+    ChessPositionImpl highlightPosition;
+
     public enum ServerMessageType {
         LOAD_GAME,
         ERROR,
         NOTIFICATION
+    }
+
+    public ChessPositionImpl getHighlightPosition() {
+        return highlightPosition;
+    }
+
+    public void setHighlightPosition(ChessPositionImpl highlightPosition) {
+        this.highlightPosition = highlightPosition;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public ServerMessage(ServerMessageType type) {

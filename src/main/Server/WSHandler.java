@@ -135,12 +135,14 @@ public class WSHandler {
                 chessGame.makeMove(move);
                 if (chessGame.isInCheckmate(chessGame.getTeamTurn())) {
                     ServerMessage checkMessage = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
-                    checkMessage.setMessage(String.format("%s is in Checkmate", chessGame.getTeamTurn()));
+                    checkMessage.setMessage(String.format("%s is in Checkmate\n\nGAME OVER", chessGame.getTeamTurn()));
                     sendMessage(session, checkMessage);
+                    sendGroupMessage(gameConnection, session, checkMessage);
                 } else if (chessGame.isInCheck(chessGame.getTeamTurn())) {
                     ServerMessage checkMessage = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
                     checkMessage.setMessage(String.format("%s is in Check", chessGame.getTeamTurn()));
                     sendMessage(session, checkMessage);
+                    sendGroupMessage(gameConnection, session, checkMessage);
                 }
 
             } catch (InvalidMoveException e) {
